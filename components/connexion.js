@@ -23,11 +23,14 @@ class Connexion extends React.Component {
 
     _connexion() {
         getToken(this.email, this.password).then((responseJson) => {
-            if(responseJson.msg != undefined)
+            if(responseJson.msg != undefined){
                 this.setState({ msg: responseJson.msg })
                 console.log(responseJson.msg)
-            if(responseJson.token != undefined)
+            }
+            if(responseJson.token != undefined){
                 console.log(responseJson.token)
+                this.props.navigation.navigate("Home")
+            }
         })
 
 
@@ -83,6 +86,7 @@ const styles = StyleSheet.create({
     },
     message: {
         color: 'red',
+        height: 15,
         // width: 50,
         // flex: 1
     }
