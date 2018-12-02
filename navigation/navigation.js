@@ -1,10 +1,28 @@
 import React from 'react'
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
+import { createStackNavigator, createBottomTabNavigator, createDrawerNavigator } from 'react-navigation'
 import Connexion from '../Components/Connexion'
 import Home from '../Components/Home'
 import Gallery from '../Components/Gallery'
+import Members from '../Components/Members'
+import Equipment from '../Components/Equipment'
+import Dashboard from '../Components/Dashboard'
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
+
+const MiscDrawerNavigator = createDrawerNavigator({
+  Members: {
+    screen: Members
+  },
+  Equipment: {
+    screen: Equipment
+  },
+  Dashboard: {
+    screen: Dashboard
+  },
+  Logout: {
+    screen: Home
+  }
+})
 
 const HomeTabNavigator = createBottomTabNavigator({
   Home: {
@@ -32,7 +50,7 @@ const HomeTabNavigator = createBottomTabNavigator({
     }
   },
   Miscellaneous: {
-    screen: Gallery,
+    screen: MiscDrawerNavigator,
     navigationOptions: {
       tabBarIcon: () => {
         return <Ionicons name='md-menu' size={iconSize}/>

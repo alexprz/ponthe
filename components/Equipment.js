@@ -1,11 +1,11 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 
-class Gallery extends React.Component {
+class Equipment extends React.Component {
   render() {
     return (
       <View style={styles.main_container}>
-        <Text>Gallery</Text>
+        <Text>Equipment</Text>
       </View>
     )
   }
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Gallery
+export default Equipment

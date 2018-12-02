@@ -1,11 +1,11 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 
-class Gallery extends React.Component {
+class Dashboard extends React.Component {
   render() {
     return (
       <View style={styles.main_container}>
-        <Text>Gallery</Text>
+        <Text>Dashboard</Text>
       </View>
     )
   }
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Gallery
+export default Dashboard

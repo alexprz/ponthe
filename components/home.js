@@ -26,6 +26,8 @@ class Home extends React.Component {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
 
