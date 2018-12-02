@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-// import Connexion from './components/connexion'
-import Navigation from './navigation/navigation'
+import Navigation from './Navigation/Navigation'
 
 export default class App extends React.Component {
   render() {
@@ -16,6 +15,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
 })

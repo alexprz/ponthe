@@ -1,7 +1,7 @@
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
-import Connexion from '../components/connexion'
-import Home from '../components/home'
-import Gallery from '../components/Gallery'
+import Connexion from '../Components/Connexion'
+import Home from '../Components/Home'
+import Gallery from '../Components/Gallery'
 
 const HomeTabNavigator = createBottomTabNavigator({
   Home: {
