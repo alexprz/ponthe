@@ -5,7 +5,7 @@ class Gallery extends React.Component {
   render() {
     return (
       <View style={styles.main_container}>
-        <Text>Gallery</Text>
+        <Text>Galerie de photos</Text>
       </View>
     )
   }

@@ -5,7 +5,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <View style={styles.main_container}>
-        <Text>Dashboard</Text>
+        <Text>Tableau de bord</Text>
       </View>
     )
   }

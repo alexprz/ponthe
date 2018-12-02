@@ -5,7 +5,7 @@ class Equipment extends React.Component {
   render() {
     return (
       <View style={styles.main_container}>
-        <Text>Equipment</Text>
+        <Text>Matériel</Text>
       </View>
     )
   }

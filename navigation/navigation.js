@@ -22,7 +22,11 @@ const MiscDrawerNavigator = createDrawerNavigator({
   Logout: {
     screen: Home
   }
-})
+},{
+  drawerPosition: 'right',
+  drawerWidth: 200
+  }
+)
 
 const HomeTabNavigator = createBottomTabNavigator({
   Home: {
@@ -74,14 +78,11 @@ const ConnexionStackNavigator = createStackNavigator({
     }
   },
   Home: {
-    screen: HomeTabNavigator,
-    navigationOptions: {
-      title: 'Page d\'accueil'
-    }
+    screen: HomeTabNavigator
   }
 })
 
 const iconSize = 25;
 
-//export default ConnexionStackNavigator
-export default HomeTabNavigator
+export default ConnexionStackNavigator
+//export default HomeTabNavigator
