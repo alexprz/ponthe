@@ -99,5 +99,5 @@ const ConnexionStackNavigator = createStackNavigator({
 
 const iconSize = 25;
 
-//export default ConnexionStackNavigator
-export default AppTabNavigator
+export default ConnexionStackNavigator
+//export default AppTabNavigator
