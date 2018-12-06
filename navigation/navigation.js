@@ -1,6 +1,7 @@
 import React from 'react'
-import { createStackNavigator, createBottomTabNavigator, createDrawerNavigator } from 'react-navigation'
-import Connexion from '../components/Connexion'
+import { createAppContainer, createSwitchNavigator, createStackNavigator,
+  createBottomTabNavigator, createDrawerNavigator } from 'react-navigation'
+import SignIn from '../components/SignIn'
 import Home from '../components/Home'
 import Gallery from '../components/Gallery'
 import Members from '../components/Members'
@@ -42,7 +43,7 @@ const MiscDrawerNavigator = createDrawerNavigator({
   }
 )
 
-const AppTabNavigator = createBottomTabNavigator({
+const HomeTabNavigator = createBottomTabNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
@@ -84,20 +85,21 @@ const AppTabNavigator = createBottomTabNavigator({
   }
 })
 
-const ConnexionStackNavigator = createStackNavigator({
-  Connexion: {
-    screen: Connexion,
+const AppSwitchNavigator = createSwitchNavigator({
+  SignIn: {
+    screen: SignIn,
     navigationOptions: {
-      title: 'Connexion',
-      headerBackTitle: null
+      title: 'Connexion'
     }
   },
   Home: {
-    screen: AppTabNavigator
+    screen: HomeTabNavigator
   }
 })
 
+//const AppContainer = createAppContainer(AppSwitchNavigator)
+
 const iconSize = 25;
 
-export default ConnexionStackNavigator
-//export default AppTabNavigator
+//export default AppContainer
+export default AppSwitchNavigator
