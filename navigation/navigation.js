@@ -11,16 +11,30 @@ import { FontAwesome } from '@expo/vector-icons'
 
 const MiscDrawerNavigator = createDrawerNavigator({
   Members: {
-    screen: Members
+    screen: Members,
+    navigationOptions: () => ({
+      title: 'Membres'
+    })
   },
   Equipment: {
-    screen: Equipment
+    screen: Equipment,
+    navigationOptions: () => ({
+      title: 'Matériel'
+    })
   },
   Dashboard: {
-    screen: Dashboard
+    screen: Dashboard,
+    navigationOptions: () => ({
+      title: 'Tableau de bord'
+    })
   },
   Logout: {
-    screen: Home
+    screen: Home,
+    navigationOptions: () => ({
+      title: 'Déconnexion'
+    })
+    //onPress
+    //this.props.navigation.navigate
   }
 },{
   drawerPosition: 'right',
@@ -28,7 +42,7 @@ const MiscDrawerNavigator = createDrawerNavigator({
   }
 )
 
-const HomeTabNavigator = createBottomTabNavigator({
+const AppTabNavigator = createBottomTabNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
@@ -74,15 +88,16 @@ const ConnexionStackNavigator = createStackNavigator({
   Connexion: {
     screen: Connexion,
     navigationOptions: {
-      title: 'Connexion'
+      title: 'Connexion',
+      headerBackTitle: null
     }
   },
   Home: {
-    screen: HomeTabNavigator
+    screen: AppTabNavigator
   }
 })
 
 const iconSize = 25;
 
-export default ConnexionStackNavigator
-//export default HomeTabNavigator
+//export default ConnexionStackNavigator
+export default AppTabNavigator
