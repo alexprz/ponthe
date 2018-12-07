@@ -73,6 +73,9 @@ const HomeTabNavigator = createBottomTabNavigator({
     navigationOptions: {
       tabBarIcon: () => {
         return <Ionicons name='md-menu' size={iconSize}/>
+      },
+      tabBarOnPress: ({navigation}) => {
+        navigation.toggleDrawer()
       }
     }
   }
