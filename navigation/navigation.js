@@ -1,47 +1,12 @@
 import React from 'react'
 import { createAppContainer, createSwitchNavigator, createStackNavigator,
-  createBottomTabNavigator, createDrawerNavigator } from 'react-navigation'
+  createBottomTabNavigator } from 'react-navigation'
 import SignIn from '../components/SignIn'
 import Home from '../components/Home'
 import Gallery from '../components/Gallery'
-import Members from '../components/Members'
-import Equipment from '../components/Equipment'
-import Dashboard from '../components/Dashboard'
+import MiscMenuDrawerNavigator from '../navigation/MiscMenuDrawer.js'
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
-
-const MiscDrawerNavigator = createDrawerNavigator({
-  Members: {
-    screen: Members,
-    navigationOptions: () => ({
-      title: 'Membres'
-    })
-  },
-  Equipment: {
-    screen: Equipment,
-    navigationOptions: () => ({
-      title: 'Matériel'
-    })
-  },
-  Dashboard: {
-    screen: Dashboard,
-    navigationOptions: () => ({
-      title: 'Tableau de bord'
-    })
-  },
-  Logout: {
-    screen: Home,
-    navigationOptions: () => ({
-      title: 'Déconnexion'
-    })
-    //onPress
-    //this.props.navigation.navigate
-  }
-},{
-  drawerPosition: 'right',
-  drawerWidth: 200
-  }
-)
 
 const HomeTabNavigator = createBottomTabNavigator({
   Home: {
@@ -68,8 +33,8 @@ const HomeTabNavigator = createBottomTabNavigator({
       }
     }
   },
-  Miscellaneous: {
-    screen: MiscDrawerNavigator,
+  MiscMenu: {
+    screen: MiscMenuDrawerNavigator,
     navigationOptions: {
       tabBarIcon: () => {
         return <Ionicons name='md-menu' size={iconSize}/>
