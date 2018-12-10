@@ -25,7 +25,7 @@ export function getToken(email, password) {
 }
 
 export function loadUser() {
-    return fetch(API_URL + "protected", {
+    return fetch(API_URL + "cgu", {
         method: 'GET',
         headers: {
             Accept: 'application/json',
@@ -33,10 +33,10 @@ export function loadUser() {
             'Authorization': 'Bearer '+API_TOKEN,
         },
     }).then((response) => response.json())
-        // .then((responseJson) => {
-        //     console.log(responseJson)
-        //     // return responseJson
-        // })
+        .then((responseJson) => {
+            console.log(responseJson)
+            // return responseJson
+        })
         .catch((error) => {
             console.error(error)
         })

@@ -63,8 +63,8 @@ class SignIn extends React.Component {
           <Button
             style = {styles.button}
             title='Connexion'
-            //onPress={() => this._connexion()}
-            onPress={() => this._shortCutConnexion()}
+            onPress={() => this._connexion()}
+            // onPress={() => this._shortCutConnexion()}
           />
         </View>
       </View>

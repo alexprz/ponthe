@@ -8,10 +8,10 @@ class Home extends React.Component {
     this.state = {
       logged_as_user: ""
     }
-    // loadUser().then((responseJson) => {
-    //   console.log(responseJson)
-    //   this.setState({logged_as_user: responseJson.logged_in_as})
-    // })
+    loadUser().then((responseJson) => {
+      console.log(responseJson)
+      // this.setState({logged_as_user: responseJson.logged_in_as}) 
+    })
   }
   render() {
     return (
