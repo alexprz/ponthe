@@ -3,7 +3,6 @@ import { API_URL } from '../constants'
 API_TOKEN = "";
 
 export function getToken(email, password) {
-
     return fetch(API_URL + "login", {
         method: 'POST',
         headers: {
@@ -41,6 +40,16 @@ export function loadUser() {
         .catch((error) => {
             console.error(error)
         })
+}
+
+export function isLogged() {
+    loadUser().then((responseJson) => {
+        return responseJson.logged_in_as != undefined
+    })
+}
+
+export function logout() {
+    API_TOKEN = ""
 }
 
 export default getToken
