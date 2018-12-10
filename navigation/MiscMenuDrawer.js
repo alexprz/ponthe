@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, View, Text } from 'react-native'
 import { createDrawerNavigator, DrawerItems,
    SafeAreaView, DrawerActions} from 'react-navigation'
 import SignIn from '../components/SignIn'
-import Home from '../components/Home'
+import Home from '../components/home'
 import Members from '../components/Members'
 import Equipment from '../components/Equipment'
 import Dashboard from '../components/Dashboard'

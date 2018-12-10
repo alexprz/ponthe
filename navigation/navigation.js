@@ -2,7 +2,7 @@ import React from 'react'
 import { createAppContainer, createSwitchNavigator, createStackNavigator,
   createBottomTabNavigator } from 'react-navigation'
 import SignIn from '../components/SignIn'
-import Home from '../components/Home'
+import Home from '../components/home'
 import Gallery from '../components/Gallery'
 import MiscMenuDrawerNavigator from '../navigation/MiscMenuDrawer.js'
 import { Ionicons } from '@expo/vector-icons'
