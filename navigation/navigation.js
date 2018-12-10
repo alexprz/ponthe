@@ -4,9 +4,58 @@ import { createAppContainer, createSwitchNavigator, createStackNavigator,
 import SignIn from '../components/SignIn'
 import Home from '../components/home'
 import Gallery from '../components/Gallery'
-import MiscMenuDrawerNavigator from '../navigation/MiscMenuDrawer.js'
+import Members from '../components/Members'
+import Equipment from '../components/Equipment'
+import Dashboard from '../components/Dashboard'
+import Settings from '../components/Settings'
+import { createDrawerNavigator } from 'react-navigation'
+import DrawerContentComponent from '../navigation/MiscMenuDrawer.js'
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
+
+const MiscMenuDrawerNavigator = createDrawerNavigator({
+  Members: {
+    screen: Members,
+    navigationOptions: () => ({
+      title: 'Membres'
+    })
+  },
+  Equipment: {
+    screen: Equipment,
+    navigationOptions: () => ({
+      title: 'Matériel'
+    })
+  },
+  Dashboard: {
+    screen: Dashboard,
+    navigationOptions: () => ({
+      title: 'Tableau de bord'
+    })
+  },
+  Settings: {
+    screen: Settings,
+    navigationOptions: () => ({
+      title: 'Paramètres'
+    })
+  },
+  SignOut: {
+    screen: SignIn,
+    navigationOptions: () => ({
+      title: 'Déconnexion'
+    })
+  }
+},{
+  drawerPosition: 'right',
+  drawerWidth: 200,
+  contentComponent: DrawerContentComponent,
+  contentOptions : {
+    labelStyle: {fontWeight: 'normal'},
+    activeLabelStyle: {color: '#000000'},
+    //activeLabelStyle: {color: '#FFC000'},
+    activeBackgroundColor: '#DDDDDD',
+    inactiveBackgroundColor: '#FFFFFF'
+  }
+})
 
 const HomeTabNavigator = createBottomTabNavigator({
   Home: {

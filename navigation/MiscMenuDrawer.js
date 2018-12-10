@@ -1,13 +1,8 @@
 import React from 'react'
-import { StyleSheet, ScrollView, View, Text } from 'react-native'
+import { connect } from 'react-redux'
 import { createDrawerNavigator, DrawerItems,
    SafeAreaView, DrawerActions} from 'react-navigation'
-import SignIn from '../components/SignIn'
-import Home from '../components/home'
-import Members from '../components/Members'
-import Equipment from '../components/Equipment'
-import Dashboard from '../components/Dashboard'
-import Settings from '../components/Settings'
+import { StyleSheet, ScrollView, View, Text } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 
 const DrawerContentComponent = (props) => (
@@ -22,7 +17,7 @@ const DrawerContentComponent = (props) => (
         </View>
         <View style={styles.profile_text_container}>
           <Text style={styles.profile_text}>
-            Nom de l'utilisateur
+            {props.userInfo.email}
           </Text>
         </View>
       </View>
@@ -41,50 +36,6 @@ const DrawerContentComponent = (props) => (
     </SafeAreaView>
   </ScrollView>
 )
-
-const MiscMenuDrawerNavigator = createDrawerNavigator({
-  Members: {
-    screen: Members,
-    navigationOptions: () => ({
-      title: 'Membres'
-    })
-  },
-  Equipment: {
-    screen: Equipment,
-    navigationOptions: () => ({
-      title: 'Matériel'
-    })
-  },
-  Dashboard: {
-    screen: Dashboard,
-    navigationOptions: () => ({
-      title: 'Tableau de bord'
-    })
-  },
-  Settings: {
-    screen: Settings,
-    navigationOptions: () => ({
-      title: 'Paramètres'
-    })
-  },
-  SignOut: {
-    screen: SignIn,
-    navigationOptions: () => ({
-      title: 'Déconnexion'
-    })
-  }
-},{
-  drawerPosition: 'right',
-  drawerWidth: 200,
-  contentComponent: DrawerContentComponent,
-  contentOptions : {
-    labelStyle: {fontWeight: 'normal'},
-    activeLabelStyle: {color: '#000000'},
-    //activeLabelStyle: {color: '#FFC000'},
-    activeBackgroundColor: '#DDDDDD',
-    inactiveBackgroundColor: '#FFFFFF'
-  }
-})
 
 const iconSize = 50;
 //const iconColor = '#CCCCCC'
@@ -115,4 +66,10 @@ const styles = StyleSheet.create({
   }
 })
 
-export default MiscMenuDrawerNavigator
+const mapStateToProps = (state) => {
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default connect(mapStateToProps)(DrawerContentComponent)

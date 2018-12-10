@@ -1,6 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { StyleSheet, View, TextInput, Text, Button } from 'react-native'
 import { getToken } from '../API/connexion'
+import UserInfo from '../lib/userClass'
 
 class SignIn extends React.Component {
 
@@ -34,7 +36,13 @@ class SignIn extends React.Component {
     })
   }
 
+  // Temporary function to shortcut sign in
   _shortCutConnexion() {
+    const userInfo = new UserInfo()
+    userInfo.email = 'user@eleves.enpc.fr'
+    userInfo.token = '0'
+    const action = { type: "UPDATE_USERINFO", value: userInfo }
+    this.props.dispatch(action)
     this.props.navigation.navigate('Home')
   }
 
@@ -63,8 +71,8 @@ class SignIn extends React.Component {
           <Button
             style = {styles.button}
             title='Connexion'
-            onPress={() => this._connexion()}
-            // onPress={() => this._shortCutConnexion()}
+            // onPress={() => this._connexion()}
+            onPress={() => this._shortCutConnexion()}
           />
         </View>
       </View>
@@ -99,4 +107,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SignIn
+const mapStateToProps = (state) => {
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default connect(mapStateToProps)(SignIn)
