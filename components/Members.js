@@ -4,8 +4,8 @@ import { StyleSheet, View, Text } from 'react-native'
 class Members extends React.Component {
 
   componentWillMount() {
-    //this.props.navigation.openDrawer()
-    //This works if MiscMenuDrawer is not a custom component
+    //console.log(this.props.navigation)
+    this.props.navigation.openDrawer()
   }
 
   render() {
@@ -15,6 +15,7 @@ class Members extends React.Component {
       </View>
     )
   }
+
 }
 
 const styles = StyleSheet.create({
