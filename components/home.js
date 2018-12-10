@@ -1,6 +1,6 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import { loadUser } from '../API/connexion'
+import { StyleSheet, View, Text, Button } from 'react-native'
+import { loadUser, logout, isLogged } from '../API/connexion'
 
 class Home extends React.Component {
   constructor(props) {
