@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Navigation from './navigation/Navigation'
+import AppSwitchNavigator from './navigation/Navigation'
 
 class App extends React.Component {
   render() {
     return (
-      <Navigation/>
+      <AppSwitchNavigator/>
     )
   }
 }
