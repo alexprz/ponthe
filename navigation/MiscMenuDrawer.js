@@ -4,6 +4,7 @@ import { createDrawerNavigator, DrawerItems,
    SafeAreaView, DrawerActions} from 'react-navigation'
 import { StyleSheet, ScrollView, View, Text } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
+import { ponthe_color } from '../constants'
 
 const DrawerContentComponent = (props) => (
   <ScrollView>
@@ -12,7 +13,7 @@ const DrawerContentComponent = (props) => (
         <View style={styles.icon_container}>
           <FontAwesome
             name='user-circle'
-            color={iconColor}
+            color={ponthe_color}
             size={iconSize}/>
         </View>
         <View style={styles.profile_text_container}>
@@ -38,15 +39,14 @@ const DrawerContentComponent = (props) => (
 )
 
 const iconSize = 50;
-//const iconColor = '#CCCCCC'
-const iconColor = '#FFCC00'
+
 const styles = StyleSheet.create({
   main_container: {
     flex: 1
   },
   profile_container: {
     height: 100,
-    marginTop: 25,
+    marginTop: 50,
     marginBottom: 50,
     alignItems: 'center',
     justifyContent: 'center'
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   profile_text: {
-    color: iconColor
+    color: ponthe_color
   },
   drawer_container: {
     flex: 1

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { StyleSheet, View, Image, TextInput, Text, Button, TouchableOpacity } from 'react-native'
 import { getToken } from '../API/connexion'
 import UserInfo from '../lib/userClass'
-import { ponthe_color } from '../constants.js'
+import { ponthe_color } from '../constants'
 
 class SignIn extends React.Component {
 
