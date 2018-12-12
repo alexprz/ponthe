@@ -14,48 +14,75 @@ import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
 
 const MiscMenuDrawerNavigator = createDrawerNavigator({
+  Home: {
+    screen: Home
+  },
   Members: {
-    screen: Members,
-    navigationOptions: () => ({
-      title: 'Membres'
-    })
+    screen: Members
   },
   Equipment: {
-    screen: Equipment,
-    navigationOptions: () => ({
-      title: 'Matériel'
-    })
+    screen: Equipment
   },
   Dashboard: {
-    screen: Dashboard,
-    navigationOptions: () => ({
-      title: 'Tableau de bord'
-    })
+    screen: Dashboard
   },
   Settings: {
-    screen: Settings,
-    navigationOptions: () => ({
-      title: 'Paramètres'
-    })
+    screen: Settings
   },
   SignOut: {
-    screen: SignIn,
-    navigationOptions: () => ({
-      title: 'Déconnexion'
-    })
+    screen: SignIn
   }
 },{
   drawerPosition: 'right',
   drawerWidth: 200,
   contentComponent: DrawerContentComponent,
-  contentOptions : {
-    labelStyle: {fontWeight: 'normal'},
-    activeLabelStyle: {color: '#000000'},
-    //activeLabelStyle: {color: '#FFC000'},
-    activeBackgroundColor: '#DDDDDD',
-    inactiveBackgroundColor: '#FFFFFF'
-  }
+  //initialRouteName: redux here?
 })
+
+// Keep that for the moment: former drawer
+
+// const MiscMenuDrawerNavigator = createDrawerNavigator({
+//   Members: {
+//     screen: Members,
+//     navigationOptions: () => ({
+//       title: 'Membres'
+//     })
+//   },
+//   Equipment: {
+//     screen: Equipment,
+//     navigationOptions: () => ({
+//       title: 'Matériel'
+//     })
+//   },
+//   Dashboard: {
+//     screen: Dashboard,
+//     navigationOptions: () => ({
+//       title: 'Tableau de bord'
+//     })
+//   },
+//   Settings: {
+//     screen: Settings,
+//     navigationOptions: () => ({
+//       title: 'Paramètres'
+//     })
+//   },
+//   SignOut: {
+//     screen: SignIn,
+//     navigationOptions: () => ({
+//       title: 'Déconnexion'
+//     })
+//   }
+// },{
+//   drawerPosition: 'right',
+//   drawerWidth: 200,
+//   contentComponent: DrawerContentComponent,
+//   contentOptions : {
+//     labelStyle: {fontWeight: 'normal'},
+//     activeLabelStyle: {color: '#000000'},
+//     activeBackgroundColor: '#DDDDDD',
+//     inactiveBackgroundColor: '#FFFFFF'
+//   }
+// })
 
 const HomeTabNavigator = createBottomTabNavigator({
   Home: {

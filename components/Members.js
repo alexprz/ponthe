@@ -5,7 +5,7 @@ class Members extends React.Component {
 
   componentWillMount() {
     //console.log(this.props.navigation)
-    this.props.navigation.openDrawer()
+    //this.props.navigation.openDrawer()
   }
 
   render() {
