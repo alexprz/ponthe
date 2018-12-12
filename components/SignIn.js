@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, View, TextInput, Text, Button } from 'react-native'
+import { StyleSheet, View, Image, TextInput, Text, Button, TouchableOpacity } from 'react-native'
 import { getToken } from '../API/connexion'
 import UserInfo from '../lib/userClass'
+import { ponthe_color } from '../constants.js'
 
 class SignIn extends React.Component {
 
@@ -48,63 +49,111 @@ class SignIn extends React.Component {
 
   render() {
     return (
-      <View style={styles.background}>
-        <View style={styles.connexion_card}>
+      <View style = {styles.main_container}>
+        <View style = {styles.image_container}>
+          <Image
+            source = {sourceLogo}
+            style= {styles.image}
+          />
+        </View>
+        <View style={styles.ids_container}>
           <Text style={styles.message}>
             {this.state.msg}
           </Text>
           <TextInput
-            style={styles.text_input}
+            style={styles.ids_text}
             placeholder = 'Identifiant'
             onChangeText = {(text) => this._emailInputChanged(text)}
             autoCapitalize = 'none'
             autoCorrect = {false}
           />
           <TextInput
-            style={styles.text_input}
+            style={styles.ids_text}
             placeholder = 'Mot de passe'
             onChangeText = {(text) => this._passwordInputChanged(text)}
             autoCapitalize = 'none'
             autoCorrect = {false}
             secureTextEntry = {true}
           />
-          <Button
-            style = {styles.button}
-            title='Connexion'
-            // onPress={() => this._connexion()}
-            onPress={() => this._shortCutConnexion()}
-          />
+        </View>
+        <View style = {styles.button_container}>
+          <TouchableOpacity
+            style = {styles.button_shape}
+            //activeOpacity = {.5}
+            onPress = {() => this._shortCutConnexion()}>
+            <Text style = {styles.button_text}>
+              Connexion
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style = {styles.reset_button_shape}
+            onPress = {() => this._shortCutConnexion()}>
+            <Text style = {styles.reset_button_text}>
+              Mot de passe oublié ?
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     )
   }
 }
 
+const sourceLogo = require('../images/ponthe_logo.png')
+
 const styles = StyleSheet.create({
-    background: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1
-    },
-    connexion_card: {
-        width: 300,
-        height: 150,
-        alignItems: 'stretch',
-        // backgroundColor: 'green',
-    },
-    text_input: {
-        height: 50,
-        // flex: 3,
-    },
-    button: {
-        // flex: 3
-    },
-    message: {
-        color: 'red',
-        height: 15,
-        // width: 50,
-        // flex: 1
-    }
+  main_container: {
+    flex: 1
+  },
+  image_container: {
+    flex: 3,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  image: {
+    height: 220,
+    width: 220
+  },
+  ids_container: {
+    marginHorizontal: 90
+  },
+  ids_text: {
+    height: 40
+  },
+  reset_button_container: {
+    height: 40,
+    marginTop: 20,
+    alignItems: 'flex-end',
+  },
+  reset_button_shape: {
+    marginTop: 40
+  },
+  reset_button_text: {
+    fontStyle: 'italic',
+    color: 'lightgray'
+  },
+  button_container: {
+    flex: 2,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 50
+  },
+  button_shape: {
+    height: 50,
+    width: 180,
+    borderRadius: 25,
+    backgroundColor: ponthe_color,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  button_text: {
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  message: {
+    color: 'red',
+    height: 15
+  }
 })
 
 const mapStateToProps = (state) => {
