@@ -15,7 +15,7 @@ import { FontAwesome } from '@expo/vector-icons'
 
 const MiscMenuDrawerNavigator = createDrawerNavigator({
   Home: {
-    screen: Home
+    screen: () => null
   },
   Members: {
     screen: Members
@@ -102,7 +102,7 @@ const HomeTabNavigator = createBottomTabNavigator({
     }
   },
   Upload: {
-    screen: Gallery,
+    screen: () => null,
     navigationOptions: {
       tabBarIcon: () => {
         return <FontAwesome name='upload' size={iconSize}/>

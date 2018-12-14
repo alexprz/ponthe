@@ -61,7 +61,11 @@ const DrawerContentComponent = (props) => (
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('SignIn')}
+          onPress={() => {
+            const action = { type: "DELETE_USERINFO", value: null }
+            props.dispatch(action)
+            props.navigation.navigate('SignIn')
+          }}
           activeOpacity = {.5}
           style = {styles.drawer_item_button}>
           <Text
@@ -96,6 +100,8 @@ const DrawerContentComponent = (props) => (
 //         <DrawerItems {...props}
 //           onItemPress = { ({route, focused}) => {
 //             if (route.routeName == 'SignOut') {
+//               const action = { type: "DELETE_USERINFO", value: null }
+//               props.dispatch(action)
 //               props.navigation.navigate('SignIn')
 //             }
 //             else {

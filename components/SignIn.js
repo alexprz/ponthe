@@ -24,15 +24,32 @@ class SignIn extends React.Component {
     this.password = password
   }
 
+  // _connexion() {
+  //   getToken(this.email, this.password).then((responseJson) => {
+  //     if(responseJson.msg != undefined){
+  //       this.setState({ msg: responseJson.msg })
+  //       console.log(responseJson.msg)
+  //     }
+  //     if(responseJson.token != undefined){
+  //       console.log(responseJson.token)
+  //       this.props.navigation.navigate('Home')
+  //     }
+  //   })
+  // }
+
   _connexion() {
-    getToken(this.email, this.password).then((responseJson) => {
-      if(responseJson.msg != undefined){
-        this.setState({ msg: responseJson.msg })
-        console.log(responseJson.msg)
-      }
-      if(responseJson.token != undefined){
-        console.log(responseJson.token)
+    console.log(this.props.userInfo)
+    getToken(this.email, this.password).then(res => {
+      if (res.statusCode == 200) {
+        const userInfo = new UserInfo()
+        userInfo.email = this.email
+        userInfo.token = res.jsonData.token
+        const action = { type: "UPDATE_USERINFO", value: userInfo }
+        this.props.dispatch(action)
         this.props.navigation.navigate('Home')
+      }
+      else {
+        this.setState({msg: res.jsonData.msg})
       }
     })
   }
@@ -57,9 +74,6 @@ class SignIn extends React.Component {
           />
         </View>
         <View style={styles.ids_container}>
-          <Text style={styles.message}>
-            {this.state.msg}
-          </Text>
           <TextInput
             style={styles.ids_text}
             placeholder = 'Identifiant'
@@ -75,12 +89,15 @@ class SignIn extends React.Component {
             autoCorrect = {false}
             secureTextEntry = {true}
           />
+          <Text style={styles.message}>
+            {this.state.msg}
+          </Text>
         </View>
         <View style = {styles.button_container}>
           <TouchableOpacity
             style = {styles.button_shape}
             //activeOpacity = {.5}
-            onPress = {() => this._shortCutConnexion()}>
+            onPress = {() => this._connexion()}>
             <Text style = {styles.button_text}>
               Connexion
             </Text>
@@ -120,23 +137,16 @@ const styles = StyleSheet.create({
   ids_text: {
     height: 40
   },
-  reset_button_container: {
-    height: 40,
-    marginTop: 20,
-    alignItems: 'flex-end',
-  },
-  reset_button_shape: {
-    marginTop: 40
-  },
-  reset_button_text: {
+  message: {
+    marginVertical: 10,
     fontStyle: 'italic',
-    color: 'lightgray'
+    color: 'red'
   },
   button_container: {
     flex: 2,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 50
+    marginTop: 20
   },
   button_shape: {
     height: 50,
@@ -150,9 +160,16 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
-  message: {
-    color: 'red',
-    height: 15
+  reset_button_container: {
+    height: 30,
+    alignItems: 'flex-end',
+  },
+  reset_button_shape: {
+    marginTop: 20
+  },
+  reset_button_text: {
+    fontStyle: 'italic',
+    color: 'lightgray'
   }
 })
 

@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Button } from 'react-native'
 import { loadUser, logout, isLogged } from '../API/connexion.js'
 
 class Home extends React.Component {
+
   constructor(props) {
     super(props)
     this.state = {
@@ -13,6 +14,7 @@ class Home extends React.Component {
     //   this.setState({logged_as_user: responseJson.logged_in_as})
     // })
   }
+
   render() {
     return (
       <View style={styles.main_container}>
