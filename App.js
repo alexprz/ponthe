@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux'
 import Store from './store/configureStore'
 import { StyleSheet, Text, View } from 'react-native';
-import AppSwitchNavigator from './navigation/Navigation'
+import AppSwitchNavigator from './navigation/navigation'
 
 class App extends React.Component {
   render() {
