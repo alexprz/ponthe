@@ -19,7 +19,10 @@ const DrawerContentComponent = (props) => (
         </View>
         <View style = {styles.profile_text_container}>
           <Text style = {styles.profile_text}>
-            {props.userInfo.email}
+            {props.userInfo.firstName}
+          </Text>
+          <Text style = {styles.profile_text}>
+            {props.userInfo.lastName}
           </Text>
         </View>
       </View>

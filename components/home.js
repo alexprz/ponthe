@@ -1,25 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { StyleSheet, View, Text, Button } from 'react-native'
 import { loadUser, logout, isLogged } from '../API/connexion.js'
 
 class Home extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      logged_as_user: ""
-    }
-    // loadUser().then((responseJson) => {
-    //   console.log(responseJson)
-    //   this.setState({logged_as_user: responseJson.logged_in_as})
-    // })
-  }
-
   render() {
+    console.log(this.props)
     return (
-      <View style={styles.main_container}>
+      <View style ={ styles.main_container}>
         <Text>Page d'accueil</Text>
-        <Text>Logged as : {this.state.logged_as_user}</Text>
+        <Text>{this.props.userInfo.firstName}</Text>
       </View>
     )
   }
@@ -33,4 +24,10 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Home
+const mapStateToProps = (state) => {
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default connect(mapStateToProps)(Home)

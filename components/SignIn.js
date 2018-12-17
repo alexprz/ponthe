@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet, View, Image, TextInput, Text, Button, TouchableOpacity } from 'react-native'
-import { getToken } from '../API/connexion'
+import { getToken, getUserInfoByToken } from '../API/connexion'
 import UserInfo from '../lib/userClass'
 import { ponthe_color } from '../constants'
 
@@ -24,28 +24,28 @@ class SignIn extends React.Component {
     this.password = password
   }
 
-  // _connexion() {
-  //   getToken(this.email, this.password).then((responseJson) => {
-  //     if(responseJson.msg != undefined){
-  //       this.setState({ msg: responseJson.msg })
-  //       console.log(responseJson.msg)
-  //     }
-  //     if(responseJson.token != undefined){
-  //       console.log(responseJson.token)
-  //       this.props.navigation.navigate('Home')
-  //     }
-  //   })
-  // }
+  _loadUserNames(token) {
+    getUserInfoByToken(token).then(res => {
+      if (res.statusCode == 200) {
+        const userInfo = new UserInfo()
+        userInfo.firstName = res.jsonData.firstname
+        userInfo.lastName = res.jsonData.lastname
+        const action = { type: "UPDATE_USERNAMES", value: userInfo }
+        this.props.dispatch(action)
+      }
+      else console.log(res.statusCode)
+    })
+  }
 
   _connexion() {
-    console.log(this.props.userInfo)
     getToken(this.email, this.password).then(res => {
       if (res.statusCode == 200) {
         const userInfo = new UserInfo()
-        userInfo.email = this.email
         userInfo.token = res.jsonData.token
-        const action = { type: "UPDATE_USERINFO", value: userInfo }
+        userInfo.email = this.email
+        const action = { type: "UPDATE_USERIDS", value: userInfo }
         this.props.dispatch(action)
+        this._loadUserNames(userInfo.token)
         this.props.navigation.navigate('Home')
       }
       else {
@@ -57,9 +57,9 @@ class SignIn extends React.Component {
   // Temporary function to shortcut sign in
   _shortCutConnexion() {
     const userInfo = new UserInfo()
+    userInfo.token = 'token'
     userInfo.email = 'user@eleves.enpc.fr'
-    userInfo.token = '0'
-    const action = { type: "UPDATE_USERINFO", value: userInfo }
+    const action = { type: "UPDATE_USERIDS", value: userInfo }
     this.props.dispatch(action)
     this.props.navigation.navigate('Home')
   }
@@ -96,7 +96,6 @@ class SignIn extends React.Component {
         <View style = {styles.button_container}>
           <TouchableOpacity
             style = {styles.button_shape}
-            //activeOpacity = {.5}
             onPress = {() => this._connexion()}>
             <Text style = {styles.button_text}>
               Connexion
