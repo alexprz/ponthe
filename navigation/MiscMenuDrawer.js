@@ -28,7 +28,7 @@ const DrawerContentComponent = (props) => (
       </View>
       <View style = {styles.drawer_container}>
         <TouchableHighlight
-          onPress = {() => props.navigation.navigate('Membres')}
+          onPress = {() => props.navigation.navigate('Members')}
           underlayColor = '#DDDDDD'
           style = {styles.drawer_item_button}>
           <Text
