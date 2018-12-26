@@ -9,6 +9,8 @@ function manageUserInfo(state = initialState, action) {
   switch (action.type) {
     case 'UPDATE_USERIDS':
       nextState.userInfo.email = action.value.email
+      // nextState.userInfo.firstName = action.value.firstName
+      // nextState.userInfo.lastName = action.value.lastName
       nextState.userInfo.token = action.value.token
       return nextState || state
     case 'UPDATE_USERNAMES':

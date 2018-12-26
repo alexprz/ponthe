@@ -24,6 +24,20 @@ class SignIn extends React.Component {
     this.password = password
   }
 
+  _getUserNames(token) {
+    getUserInfoByToken(token).then(res => {
+      if (res.statusCode == 200) {
+        const userInfo = new UserInfo()
+        userInfo.email = res.jsonData.email
+        userInfo.firstName = res.jsonData.firstname
+        userInfo.lastName = res.jsonData.lastname
+        userInfo.token = token
+        console.log(userInfo)
+        return userInfo
+      }
+    })
+  }
+
   _loadUserNames(token) {
     getUserInfoByToken(token).then(res => {
       if (res.statusCode == 200) {
@@ -41,8 +55,8 @@ class SignIn extends React.Component {
     getToken(this.email, this.password).then(res => {
       if (res.statusCode == 200) {
         const userInfo = new UserInfo()
-        userInfo.token = res.jsonData.token
         userInfo.email = this.email
+        userInfo.token = res.jsonData.token
         const action = { type: "UPDATE_USERIDS", value: userInfo }
         this.props.dispatch(action)
         this._loadUserNames(userInfo.token)
@@ -53,6 +67,21 @@ class SignIn extends React.Component {
       }
     })
   }
+
+  // Attempt to fix async issues
+  // _connexion() {
+  //   getToken(this.email, this.password).then(res => {
+  //     if (res.statusCode == 200) {
+  //       userInfo = this._getUserNames(res.jsonData.token)
+  //       const action = { type: "UPDATE_USERIDS", value: userInfo }
+  //       this.props.dispatch(action)
+  //       this.props.navigation.navigate('Home')
+  //     }
+  //     else {
+  //       this.setState({msg: res.jsonData.msg})
+  //     }
+  //   })
+  // }
 
   // Temporary function to shortcut sign in
   _shortCutConnexion() {
