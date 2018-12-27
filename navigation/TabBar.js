@@ -13,7 +13,7 @@ const TabBarContentComponent = (props) => (
       <FontAwesome name='home' size={tab_icon_size}/>
     </TouchableOpacity>
     <TouchableOpacity
-      onPress = {() => props.navigation.navigate('Gallery')}
+      onPress = {() => props.navigation.navigate('GalleryStack')}
       activeOpacity = {.5}
       style = {styles.item_container}>
       <Ionicons name='md-photos' size={tab_icon_size}/>

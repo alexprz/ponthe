@@ -1,26 +1,27 @@
 import React from 'react'
-import { createAppContainer, createSwitchNavigator, createStackNavigator,
+import { createAppContainer, createSwitchNavigator,
   createBottomTabNavigator, createDrawerNavigator } from 'react-navigation'
-import SignIn from '../components/SignIn'
-import Home from '../components/home'
-import Gallery from '../components/Gallery'
-import Members from '../components/Members'
-import Equipment from '../components/Equipment'
-import Dashboard from '../components/Dashboard'
-import Settings from '../components/Settings'
-import TabBarContentComponent from '../components/TabBar'
-import DrawerContentComponent from '../navigation/MiscMenuDrawer'
+import SignIn from '../components/SignIn.js'
+import Home from '../components/home.js'
+import Gallery from '../components/Gallery.js'
+import Members from '../components/Members.js'
+import Equipment from '../components/Equipment.js'
+import Dashboard from '../components/Dashboard.js'
+import Settings from '../components/Settings.js'
+import GalleryStack from '../navigation/GalleryStack.js'
+import TabBarContentComponent from '../navigation/TabBar.js'
+import DrawerContentComponent from '../navigation/MiscMenuDrawer.js'
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
 
 // Custom tab bar navigator and drawer navigator
 
-const HomeTabNavigator = createBottomTabNavigator({
+const HomeNavigator = createBottomTabNavigator({
   Home: {
     screen: Home,
   },
-  Gallery: {
-    screen: Gallery,
+  GalleryStack: {
+    screen: GalleryStack,
   },
   Upload: {
     screen: () => null
@@ -44,18 +45,12 @@ const HomeTabNavigator = createBottomTabNavigator({
     screen: SignIn
   }
 },{
-  // tabBarOptions: {
-  //   activeBackgroundColor: '#DDDDDD',
-  //   inactiveBackgroundColor: '#FFFFFF',
-  //   showLabel: false,
-  //   showIcon: true
-  // }
   tabBarComponent: TabBarContentComponent
 })
 
 const MiscMenuDrawerNavigator = createDrawerNavigator({
   Home: {
-    screen: HomeTabNavigator
+    screen: HomeNavigator
   },
   Members: {
     screen: Members

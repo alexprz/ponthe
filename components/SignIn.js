@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, View, Image, TextInput, Text, Button, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Image, TextInput, Text,
+  TouchableOpacity } from 'react-native'
 import { getToken, getUserInfoByToken } from '../API/connexion'
 import UserInfo from '../lib/userClass'
 import { ponthe_color } from '../constants'
@@ -24,6 +25,20 @@ class SignIn extends React.Component {
     this.password = password
   }
 
+  _translateErrorMessage(statusCode, msg) {
+    if (statusCode == 400) {
+      if (msg.includes('password')) {
+        return 'Mot de passe manquant'
+      }
+      else {
+        return 'Email manquant'
+      }
+    }
+    else {
+      return msg
+    }
+  }
+
   _getUserNames(token) {
     getUserInfoByToken(token).then(res => {
       if (res.statusCode == 200) {
@@ -32,7 +47,6 @@ class SignIn extends React.Component {
         userInfo.firstName = res.jsonData.firstname
         userInfo.lastName = res.jsonData.lastname
         userInfo.token = token
-        console.log(userInfo)
         return userInfo
       }
     })
@@ -53,6 +67,7 @@ class SignIn extends React.Component {
 
   _connexion() {
     getToken(this.email, this.password).then(res => {
+      console.log(res.statusCode)
       if (res.statusCode == 200) {
         const userInfo = new UserInfo()
         userInfo.email = this.email
@@ -63,7 +78,8 @@ class SignIn extends React.Component {
         this.props.navigation.navigate('Home')
       }
       else {
-        this.setState({msg: res.jsonData.msg})
+        this.setState({msg:
+          this._translateErrorMessage(res.statusCode, res.jsonData.msg)})
       }
     })
   }
@@ -105,7 +121,7 @@ class SignIn extends React.Component {
         <View style={styles.ids_container}>
           <TextInput
             style={styles.ids_text}
-            placeholder = 'Identifiant'
+            placeholder = 'Email - prenom.nom@eleves.enpc.fr'
             onChangeText = {(text) => this._emailInputChanged(text)}
             autoCapitalize = 'none'
             autoCorrect = {false}
@@ -122,18 +138,25 @@ class SignIn extends React.Component {
             {this.state.msg}
           </Text>
         </View>
-        <View style = {styles.button_container}>
+        <View style = {styles.buttons_container}>
           <TouchableOpacity
-            style = {styles.button_shape}
+            style = {styles.main_button_shape}
             onPress = {() => this._connexion()}>
-            <Text style = {styles.button_text}>
+            <Text style = {styles.main_button_text}>
               Connexion
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style = {styles.reset_button_shape}
+            style = {styles.secondary_button_shape}
             onPress = {() => this._shortCutConnexion()}>
-            <Text style = {styles.reset_button_text}>
+            <Text style = {styles.secondary_button_text}>
+              Créer un compte
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style = {styles.secondary_button_shape}
+            onPress = {() => this._shortCutConnexion()}>
+            <Text style = {styles.secondary_button_text}>
               Mot de passe oublié ?
             </Text>
           </TouchableOpacity>
@@ -152,14 +175,14 @@ const styles = StyleSheet.create({
   image_container: {
     flex: 3,
     justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginBottom: 10
+    alignItems: 'center'
   },
   image: {
     height: 220,
     width: 220
   },
   ids_container: {
+    marginTop: 20,
     marginHorizontal: 90
   },
   ids_text: {
@@ -170,13 +193,14 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: 'red'
   },
-  button_container: {
+  buttons_container: {
     flex: 2,
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop: 20
   },
-  button_shape: {
+  main_button_shape: {
+    marginBottom: 15,
     height: 50,
     width: 180,
     borderRadius: 25,
@@ -184,18 +208,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  button_text: {
+  main_button_text: {
     color: 'white',
     fontWeight: 'bold'
   },
-  reset_button_container: {
-    height: 30,
-    alignItems: 'flex-end',
+  secondary_button_shape: {
+    margin: 5
   },
-  reset_button_shape: {
-    marginTop: 20
-  },
-  reset_button_text: {
+  secondary_button_text: {
     fontStyle: 'italic',
     color: 'lightgray'
   }
