@@ -84,6 +84,10 @@ class SignIn extends React.Component {
     })
   }
 
+  _register() {
+    this.props.navigation.navigate('SignUp')
+  }
+
   // Attempt to fix async issues
   // _connexion() {
   //   getToken(this.email, this.password).then(res => {
@@ -148,7 +152,7 @@ class SignIn extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
             style = {styles.secondary_button_shape}
-            onPress = {() => this._shortCutConnexion()}>
+            onPress = {() => this.props.navigation.navigate('SignUp')}>
             <Text style = {styles.secondary_button_text}>
               Créer un compte
             </Text>
@@ -170,7 +174,8 @@ const sourceLogo = require('../images/ponthe_logo.png')
 
 const styles = StyleSheet.create({
   main_container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white'
   },
   image_container: {
     flex: 3,
@@ -183,7 +188,7 @@ const styles = StyleSheet.create({
   },
   ids_container: {
     marginTop: 20,
-    marginHorizontal: 90
+    marginHorizontal: 70
   },
   ids_text: {
     height: 40

@@ -1,7 +1,9 @@
 import React from 'react'
-import { createAppContainer, createSwitchNavigator,
+import { StyleSheet } from 'react-native'
+import { createAppContainer, createSwitchNavigator, createStackNavigator,
   createBottomTabNavigator, createDrawerNavigator } from 'react-navigation'
 import SignIn from '../components/SignIn.js'
+import SignUp from '../components/SignUp.js'
 import Home from '../components/home.js'
 import Gallery from '../components/Gallery.js'
 import Members from '../components/Members.js'
@@ -13,8 +15,26 @@ import TabBarContentComponent from '../navigation/TabBar.js'
 import DrawerContentComponent from '../navigation/MiscMenuDrawer.js'
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
+import { ponthe_color } from '../constants'
 
 // Custom tab bar navigator and drawer navigator
+
+const ConnexionNavigator = createStackNavigator({
+  SignIn: {
+    screen: SignIn,
+    navigationOptions: {
+      header: null
+    }
+  },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: () => ({
+      headerTitle: 'Nouveau compte',
+      headerTitleStyle: styles.header_title,
+      headerTintColor: ponthe_color
+    })
+  }
+})
 
 const HomeNavigator = createBottomTabNavigator({
   Home: {
@@ -65,7 +85,7 @@ const MiscMenuDrawerNavigator = createDrawerNavigator({
     screen: Settings
   },
   SignOut: {
-    screen: SignIn
+    screen: ConnexionNavigator
   }
 },{
   drawerPosition: 'right',
@@ -74,11 +94,8 @@ const MiscMenuDrawerNavigator = createDrawerNavigator({
 })
 
 const AppSwitchNavigator = createSwitchNavigator({
-  SignIn: {
-    screen: SignIn,
-    navigationOptions: {
-      title: 'Connexion'
-    }
+  ConnexionNavigator: {
+    screen: ConnexionNavigator,
   },
   Main: {
     screen: MiscMenuDrawerNavigator
@@ -160,6 +177,15 @@ const AppSwitchNavigator = createSwitchNavigator({
 //const AppContainer = createAppContainer(AppSwitchNavigator)
 
 const iconSize = 25;
+
+const styles = StyleSheet.create({
+  header_title: {
+    margin: 5,
+    fontWeight: 'bold',
+    fontSize: 25,
+    color: 'black'
+  }
+})
 
 //export default AppContainer
 export default AppSwitchNavigator
