@@ -1,23 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { StyleSheet, View, Text, Button } from 'react-native'
-import { loadUser, logout, isLogged } from '../API/connexion.js'
+import GalleryEventGrid from '../components/GalleryEventGrid.js'
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      logged_as_user: ""
-    }
-    // loadUser().then((responseJson) => {
-    //   console.log(responseJson)
-    //   this.setState({logged_as_user: responseJson.logged_in_as})
-    // })
-  }
   render() {
     return (
       <View style={styles.main_container}>
-        <Text>Page d'accueil</Text>
-        <Text>Logged as : {this.state.logged_as_user}</Text>
+        <Text style={styles.text_style}>
+          Dernières photos ajoutées
+        </Text>
+        <GalleryEventGrid/>
       </View>
     )
   }
@@ -26,9 +19,21 @@ class Home extends React.Component {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    marginTop: 25,
+    paddingBottom: 10,
+  },
+  text_style: {
+    margin: 10,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 25
   }
 })
 
-export default Home
+const mapStateToProps = (state) => {
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default connect(mapStateToProps)(Home)
