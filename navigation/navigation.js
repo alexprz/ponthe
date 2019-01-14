@@ -102,6 +102,7 @@ const AppSwitchNavigator = createSwitchNavigator({
   }
 })
 
+// Will be removed soon
 // Standard tab navigator qnd drawer navigator
 
 // const HomeTabNavigator = createBottomTabNavigator({

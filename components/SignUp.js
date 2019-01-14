@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, TextInput, Text,
-  TouchableOpacity } from 'react-native'
+  TouchableOpacity, Alert } from 'react-native'
+import { postRegistration } from '../API/connexion'
 import { ponthe_color } from '../constants'
 
 class SignUp extends React.Component {
@@ -42,8 +43,29 @@ class SignUp extends React.Component {
     this.promotionYear = promo
   }
 
-  _register() {
+  _raiseRegistrationAlert() {
+    Alert.alert(
+      'Confirmation de la création du compte',
+      'Un mail de confirmation t\'as été envoyé sur ton adresse Zimbra',
+      [
+        {text: 'OK', onPress: () => this.props.navigation.navigate('SignIn')},
+      ],
+        { cancelable: false }
+    )
+  }
 
+  _register() {
+    postRegistration(this.firstName, this.lastName, this.email, this.password,
+      this.passwordConfirmation, this.promotionYear).then(res => {
+      if (res.statusCode == 200) {
+        this._raiseRegistrationAlert();
+      }
+      else {
+        console.log(res.statusCode)
+        this.setState({msg:res.jsonData.msg})
+        this._raiseRegistrationAlert();
+      }
+    })
   }
 
   render() {

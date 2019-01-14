@@ -1,8 +1,19 @@
 import React from 'react'
 import { Component } from 'react'
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
+
+const raiseAlert = () => (
+  Alert.alert(
+    'Fonctionnalité indisponible',
+    'Cette fonctionnalité est indiponible pour le moment',
+    [
+      {text: 'OK', onPress: () => null},
+    ],
+      { cancelable: true }
+  )
+)
 
 const TabBarContentComponent = (props) => (
   <View style = {styles.main_container}>
@@ -19,8 +30,7 @@ const TabBarContentComponent = (props) => (
       <Ionicons name='md-photos' size={tab_icon_size}/>
     </TouchableOpacity>
     <TouchableOpacity
-      onPress = {() => {
-        console.log(props.navigation)}}
+      onPress = {raiseAlert}
       activeOpacity = {.5}
       style = {styles.item_container}>
       <FontAwesome name = 'upload' size = {tab_icon_size}/>

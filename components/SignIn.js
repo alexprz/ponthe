@@ -34,6 +34,9 @@ class SignIn extends React.Component {
         return 'Email manquant'
       }
     }
+    if (statusCode == 401) {
+      return 'Email ou mot de passe incorrect'
+    }
     else {
       return msg
     }
@@ -67,7 +70,6 @@ class SignIn extends React.Component {
 
   _connexion() {
     getToken(this.email, this.password).then(res => {
-      console.log(res.statusCode)
       if (res.statusCode == 200) {
         const userInfo = new UserInfo()
         userInfo.email = this.email
