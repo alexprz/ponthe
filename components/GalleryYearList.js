@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, View, Text, FlatList,
   ImageBackground, TouchableOpacity } from 'react-native'
 import GalleryEventGrid from '../components/GalleryEventGrid.js'
+import ImageItem from './ImageItem'
 
 class GalleryYearList extends React.Component {
   render() {
@@ -9,18 +10,15 @@ class GalleryYearList extends React.Component {
       <View style={styles.main_container}>
         <Text style={styles.year_text}> {this.props.year} </Text>
         <FlatList
-          data={this.props.year_events}
-          keyExtractor={(item) => item.id.toString()}
+          data={this.props.year_galleries}
+          keyExtractor={(item) => item.toString()}
           horizontal={true}
           renderItem={({item}) =>
             <TouchableOpacity
               onPress={() => this.props.displayGalleryEvent(item)}>
-              <ImageBackground style={styles.image}>
-                <View style={styles.event_text_container}>
-                  <Text style={styles.event_text}> {item.title} </Text>
-                </View>
-              </ImageBackground>
-            </TouchableOpacity>}
+              <ImageItem base64={item.image} path={""}/>
+            </TouchableOpacity>
+          }
         />
       </View>
     )

@@ -47,11 +47,27 @@ export function getUserInfoByToken(token) {
 //   .catch(error => console.error(error))
 // }
 
-
 export function isLogged() {
     loadUser().then((responseJson) => {
         return responseJson.logged_in_as != undefined
     })
 }
 
-export default getToken
+export function postRegistration(firstName, lastName, email,
+  password, passwordConfirmation, promotionYear) {
+    return fetch(API_URL + "register", {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstname: firstName,
+        lastname: lastName,
+        email: email,
+        password: password,
+        confirmation_password: passwordConfirmation,
+        promotion: promotionYear})
+      })
+      .then(processAPIResponse)
+      .catch(error => console.error(error))
+  }
