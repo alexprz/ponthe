@@ -1,4 +1,4 @@
-import { API_URL } from '../constants'
+import { API_URL, API_TOKEN } from '../constants'
 
 function processAPIResponse(response) {
   console.log(response)
@@ -15,7 +15,20 @@ export function getLatestImagesFromAPI() {
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json' }
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + API_TOKEN  }
+    })
+    .then(processAPIResponse)
+    .catch(error => console.error(error))
+}
+
+export function getAllYearsFromAPI() {
+  return fetch(API_URL + "get-galleries-by-year", {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + API_TOKEN}
     })
     .then(processAPIResponse)
     .catch(error => console.error(error))

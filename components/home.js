@@ -35,7 +35,7 @@ class Home extends React.Component {
             data={this.state.file_list}
             keyExtractor={(item) => item.file_path.toString()}
             numColumns={numColumns}
-            renderItem={({item}) => <ImageItem file_info={item}/>}
+            renderItem={({item}) => <ImageItem base64={item.thumbnails} path={item.file_path}/>}
           />
         </View>
       </View>
