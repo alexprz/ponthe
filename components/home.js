@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, FlatList } from 'react-native'
 import {getLatestImagesFromAPI} from '../API/loadImages'
 import ImageItem from './ImageItem'
 import store from '../store/configureStore'
+import {SecureStore} from 'expo';
 
 class Home extends React.Component {
   constructor(props) {

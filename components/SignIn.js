@@ -6,6 +6,9 @@ import { getToken, getUserInfoByToken } from '../API/connexion'
 import UserInfo from '../lib/userClass'
 import { ponthe_color } from '../constants'
 import store from '../store/configureStore'
+// import {SecureStore} from 'expo';
+import {AsyncStorage} from 'react-native';
+
 
 class SignIn extends React.Component {
 
@@ -16,7 +19,32 @@ class SignIn extends React.Component {
     }
     this.email = ''
     this.password = ''
+    this.token = ''
+    this._retrieveToken()
   }
+
+  _retrieveToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@Ponthe:token');
+      if (value !== null) {
+        this.token = value
+        const userInfo = new UserInfo()
+        userInfo.email = this.email
+        userInfo.token = value
+        const action = { type: "UPDATE_USERIDS", value: userInfo }
+        this.props.dispatch(action)
+        this._loadUserNames(userInfo.token)
+        store.dispatch(action)
+        this.props.navigation.navigate('Home')
+      }
+    } catch (error) {
+      await AsyncStorage.removeItem('@Ponthe:token');
+    }
+  };
+
+  _storeToken = async (token) => {
+    await AsyncStorage.setItem('@Ponthe:token', token);
+  };
 
   _emailInputChanged(email) {
     this.email = email
@@ -64,6 +92,7 @@ class SignIn extends React.Component {
         userInfo.lastName = res.jsonData.lastname
         const action = { type: "UPDATE_USERNAMES", value: userInfo }
         this.props.dispatch(action)
+        store.dispatch(action)
       }
       else console.log(res.statusCode)
     })
@@ -79,6 +108,7 @@ class SignIn extends React.Component {
         this.props.dispatch(action)
         this._loadUserNames(userInfo.token)
         store.dispatch(action)
+        this._storeToken(userInfo.token)
         this.props.navigation.navigate('Home')
       }
       else {
