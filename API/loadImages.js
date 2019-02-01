@@ -33,3 +33,16 @@ export function getAllYearsFromAPI() {
     .then(processAPIResponse)
     .catch(error => console.error(error))
 }
+
+
+export function getImagesFromAPI(gallery_slug) {
+  return fetch(API_URL + "get-images/" + gallery_slug, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + API_TOKEN  }
+    })
+    .then(processAPIResponse)
+    .catch(error => console.error(error))
+}

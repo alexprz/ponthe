@@ -29,7 +29,7 @@ class Gallery extends React.Component {
   }
 
   _displayGalleryEvent = (item) => {
-    this.props.navigation.navigate('GalleryEvent', {event: item})
+    this.props.navigation.navigate('GalleryEvent', {gallery: item})
   }
 
   render() {

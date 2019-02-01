@@ -15,7 +15,7 @@ const GalleryStack = createStackNavigator({
   GalleryEvent: {
     screen: GalleryEventGrid,
     navigationOptions: ({navigation}) => ({
-      headerTitle: navigation.state.params.event.title,
+      headerTitle: navigation.state.params.gallery.slug,
       headerTitleStyle: styles.event_title,
       headerTintColor: ponthe_color
     })
