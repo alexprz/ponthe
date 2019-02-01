@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
 import manageUserInfo from './Reducers/userInfoReducer'
 
-export default createStore(manageUserInfo)
+const store = createStore(manageUserInfo)
+export default store

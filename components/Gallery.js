@@ -3,6 +3,7 @@ import { StyleSheet, View, FlatList } from 'react-native'
 import GalleryYearList from '../components/GalleryYearList.js'
 import years_data from '../helpers/GalleryYearsData.js'
 import {getAllYearsFromAPI} from '../API/loadImages'
+import store from '../store/configureStore'
 
 class Gallery extends React.Component {
 
@@ -13,13 +14,11 @@ class Gallery extends React.Component {
           isLoading: false
       }
       this._loadYears()
-      console.log("chibre")
-      // console.log(this.state.year_list)
   }
 
   _loadYears () {
     this.setState({isLoading: true})
-    getAllYearsFromAPI().then(data => {
+    getAllYearsFromAPI(store.getState().userInfo.token).then(data => {
         this.setState({
             year_list: data.jsonData.data,
             isLoading: false
@@ -29,7 +28,7 @@ class Gallery extends React.Component {
   }
 
   _displayGalleryEvent = (item) => {
-    this.props.navigation.navigate('GalleryEvent', {event: item})
+    this.props.navigation.navigate('GalleryEvent', {gallery: item})
   }
 
   render() {

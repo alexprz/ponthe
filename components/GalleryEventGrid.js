@@ -2,21 +2,46 @@ import React from 'react'
 import { StyleSheet, View, Text, FlatList,
   ImageBackground, TouchableOpacity } from 'react-native'
 import event_data from '../helpers/GalleryEventData.js'
+import ImageItem from './ImageItem'
+import {getImagesFromAPI} from '../API/loadImages'
+import store from '../store/configureStore'
 
 class GalleryEventGrid extends React.Component {
+
+  constructor(props) {
+      super(props)
+      this.state = {
+          file_list: [],
+          isLoading: false
+      }
+      this._loadImages()
+  }
+
+  _loadImages () {
+    this.setState({isLoading: true})
+    getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token).then(data => {
+        this.setState({
+            file_list: data.jsonData.approved_files,
+            isLoading: false
+        })
+    })
+  }
+
   render() {
     return (
       <View style={styles.main_container}>
         <FlatList
-          data={event_data.images}
-          keyExtractor={(item) => item.id.toString()}
+          data={this.state.file_list}
+          keyExtractor={(item) => item.file_path.toString()}
           numColumns={numColumns}
           renderItem={({item}) =>
-            <ImageBackground style={styles.image}>
-              <View style={styles.image_text_container}>
-                <Text style={styles.image_text}> {item.id} </Text>
-              </View>
-            </ImageBackground>}
+            <ImageItem base64={item.base64} path={item.file_path} />
+            // <ImageBackground style={styles.image}>
+            //   <View style={styles.image_text_container}>
+            //     <Text style={styles.image_text}> {item.id} </Text>
+            //   </View>
+            // </ImageBackground>
+          }
         />
       </View>
     )

@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { StyleSheet, View, Text, FlatList } from 'react-native'
 import {getLatestImagesFromAPI} from '../API/loadImages'
 import ImageItem from './ImageItem'
+import store from '../store/configureStore'
+import {SecureStore} from 'expo';
 
 class Home extends React.Component {
   constructor(props) {
@@ -16,7 +18,7 @@ class Home extends React.Component {
 
   _loadImages () {
     this.setState({isLoading: true})
-    getLatestImagesFromAPI().then(data => {
+    getLatestImagesFromAPI(store.getState().userInfo.token).then(data => {
         this.setState({
             file_list: data.jsonData.latest_files,
             isLoading: false
@@ -35,7 +37,7 @@ class Home extends React.Component {
             data={this.state.file_list}
             keyExtractor={(item) => item.file_path.toString()}
             numColumns={numColumns}
-            renderItem={({item}) => <ImageItem base64={item.thumbnails} path={item.file_path}/>}
+            renderItem={({item}) => <ImageItem base64={item.base64} path={item.file_path}/>}
           />
         </View>
       </View>

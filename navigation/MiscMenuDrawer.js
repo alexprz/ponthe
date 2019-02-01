@@ -6,6 +6,11 @@ import { StyleSheet, ScrollView, View, Text,
   TouchableHighlight } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import { ponthe_color } from '../constants'
+import {AsyncStorage} from 'react-native';
+
+_eraseToken = async () => {
+  await AsyncStorage.removeItem('@Ponthe:token');
+};
 
 const DrawerContentComponent = (props) => (
   <ScrollView>
@@ -67,6 +72,7 @@ const DrawerContentComponent = (props) => (
           onPress={() => {
             const action = { type: "DELETE_USERINFO", value: null }
             props.dispatch(action)
+            _eraseToken()
             props.navigation.navigate('SignIn')
           }}
           activeOpacity = {.5}
