@@ -5,6 +5,7 @@ import { StyleSheet, View, Image, TextInput, Text,
 import { getToken, getUserInfoByToken } from '../API/connexion'
 import UserInfo from '../lib/userClass'
 import { ponthe_color } from '../constants'
+import store from '../store/configureStore'
 
 class SignIn extends React.Component {
 
@@ -77,6 +78,7 @@ class SignIn extends React.Component {
         const action = { type: "UPDATE_USERIDS", value: userInfo }
         this.props.dispatch(action)
         this._loadUserNames(userInfo.token)
+        store.dispatch(action)
         this.props.navigation.navigate('Home')
       }
       else {

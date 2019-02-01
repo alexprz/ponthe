@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, FlatList,
 import event_data from '../helpers/GalleryEventData.js'
 import ImageItem from './ImageItem'
 import {getImagesFromAPI} from '../API/loadImages'
+import store from '../store/configureStore'
 
 class GalleryEventGrid extends React.Component {
 
@@ -18,7 +19,7 @@ class GalleryEventGrid extends React.Component {
 
   _loadImages () {
     this.setState({isLoading: true})
-    getImagesFromAPI(this.props.navigation.state.params.gallery.slug).then(data => {
+    getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token).then(data => {
         this.setState({
             file_list: data.jsonData.approved_files,
             isLoading: false

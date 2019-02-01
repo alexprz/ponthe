@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { StyleSheet, View, Text, FlatList } from 'react-native'
 import {getLatestImagesFromAPI} from '../API/loadImages'
 import ImageItem from './ImageItem'
+import store from '../store/configureStore'
 
 class Home extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class Home extends React.Component {
 
   _loadImages () {
     this.setState({isLoading: true})
-    getLatestImagesFromAPI().then(data => {
+    getLatestImagesFromAPI(store.getState().userInfo.token).then(data => {
         this.setState({
             file_list: data.jsonData.latest_files,
             isLoading: false

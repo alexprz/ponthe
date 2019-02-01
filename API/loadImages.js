@@ -1,7 +1,7 @@
-import { API_URL, API_TOKEN } from '../constants'
+import { API_URL } from '../constants'
 
 function processAPIResponse(response) {
-  console.log(response)
+  // console.log(response)
   const statusCode = response.status;
   const jsonData = response.json();
   return Promise.all([statusCode, jsonData]).then(res => ({
@@ -10,38 +10,38 @@ function processAPIResponse(response) {
   }))
 }
 
-export function getLatestImagesFromAPI() {
+export function getLatestImagesFromAPI(token) {
   return fetch(API_URL + "get-latest-images", {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + API_TOKEN  }
+      'Authorization': 'Bearer ' + token  }
     })
     .then(processAPIResponse)
     .catch(error => console.error(error))
 }
 
-export function getAllYearsFromAPI() {
+export function getAllYearsFromAPI(token) {
   return fetch(API_URL + "get-galleries-by-year", {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + API_TOKEN}
+      'Authorization': 'Bearer ' + token}
     })
     .then(processAPIResponse)
     .catch(error => console.error(error))
 }
 
 
-export function getImagesFromAPI(gallery_slug) {
+export function getImagesFromAPI(gallery_slug, token) {
   return fetch(API_URL + "get-images/" + gallery_slug, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + API_TOKEN  }
+      'Authorization': 'Bearer ' + token  }
     })
     .then(processAPIResponse)
     .catch(error => console.error(error))
