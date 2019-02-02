@@ -10,6 +10,7 @@ import Members from '../components/Members.js'
 import Equipment from '../components/Equipment.js'
 import Dashboard from '../components/Dashboard.js'
 import Settings from '../components/Settings.js'
+import MyImageViewer from '../components/MyImageViewer.js'
 import GalleryStack from '../navigation/GalleryStack.js'
 import TabBarContentComponent from '../navigation/TabBar.js'
 import DrawerContentComponent from '../navigation/MiscMenuDrawer.js'
@@ -63,6 +64,9 @@ const HomeNavigator = createBottomTabNavigator({
   },
   SignOut: {
     screen: SignIn
+  },
+  ImageViewer: {
+    screen: MyImageViewer
   }
 },{
   tabBarComponent: TabBarContentComponent

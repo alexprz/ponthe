@@ -46,3 +46,17 @@ export function getImagesFromAPI(gallery_slug, token) {
     .then(processAPIResponse)
     .catch(error => console.error(error))
 }
+
+export function getFullImageFromAPI(file_path, token) {
+  return fetch(API_URL + "get-full-image", {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token  },
+      body: JSON.stringify({
+        file_path: file_path})
+    })
+    .then(processAPIResponse)
+    .catch(error => console.error(error))
+}

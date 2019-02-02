@@ -27,6 +27,10 @@ class GalleryEventGrid extends React.Component {
     })
   }
 
+  _displayFullImage = (item) => {
+    this.props.navigation.navigate('ImageViewer', {image: item})
+  }
+
   render() {
     return (
       <View style={styles.main_container}>
@@ -35,7 +39,11 @@ class GalleryEventGrid extends React.Component {
           keyExtractor={(item) => item.file_path.toString()}
           numColumns={numColumns}
           renderItem={({item}) =>
-            <ImageItem base64={item.base64} path={item.file_path} />
+            <TouchableOpacity
+              onPress={() => this._displayFullImage(item)}>
+              <ImageItem base64={item.base64} path={item.file_path} />
+            </TouchableOpacity>
+            // <ImageItem base64={item.base64} path={item.file_path} />
             // <ImageBackground style={styles.image}>
             //   <View style={styles.image_text_container}>
             //     <Text style={styles.image_text}> {item.id} </Text>
