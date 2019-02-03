@@ -5,6 +5,7 @@ import event_data from '../helpers/GalleryEventData.js'
 import ImageItem from './ImageItem'
 import {getImagesFromAPI} from '../API/loadImages'
 import store from '../store/configureStore'
+import MyImageViewer from './MyImageViewer'
 
 class GalleryEventGrid extends React.Component {
 
@@ -12,7 +13,10 @@ class GalleryEventGrid extends React.Component {
       super(props)
       this.state = {
           file_list: [],
-          isLoading: false
+          path_list: [],
+          isLoading: false,
+          showImageViewer: false,
+          current_index: 0
       }
       this._loadImages()
   }
@@ -20,15 +24,26 @@ class GalleryEventGrid extends React.Component {
   _loadImages () {
     this.setState({isLoading: true})
     getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token).then(data => {
+
+        var path_list = new Array(data.jsonData.approved_files.length).fill("")
+
+        for (var i = 0; i < data.jsonData.approved_files.length; i++) {
+          path_list[i] = data.jsonData.approved_files[i].file_path
+        }
+
         this.setState({
             file_list: data.jsonData.approved_files,
+            path_list: path_list,
             isLoading: false
         })
     })
   }
 
-  _displayFullImage = (item) => {
-    this.props.navigation.navigate('ImageViewer', {image: item})
+  _displayFullImage = (item, index) => {
+    this.setState({
+      'showImageViewer': true,
+      'current_index': index
+    })
   }
 
   render() {
@@ -38,18 +53,17 @@ class GalleryEventGrid extends React.Component {
           data={this.state.file_list}
           keyExtractor={(item) => item.file_path.toString()}
           numColumns={numColumns}
-          renderItem={({item}) =>
+          renderItem={({item, index}) =>
             <TouchableOpacity
-              onPress={() => this._displayFullImage(item)}>
+              onPress={() => this._displayFullImage(item, index)}>
               <ImageItem base64={item.base64} path={item.file_path} />
             </TouchableOpacity>
-            // <ImageItem base64={item.base64} path={item.file_path} />
-            // <ImageBackground style={styles.image}>
-            //   <View style={styles.image_text_container}>
-            //     <Text style={styles.image_text}> {item.id} </Text>
-            //   </View>
-            // </ImageBackground>
           }
+        />
+        <MyImageViewer
+          show={this.state.showImageViewer}
+          path_list={this.state.path_list}
+          current_index={this.state.current_index}
         />
       </View>
     )

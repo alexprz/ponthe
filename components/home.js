@@ -18,7 +18,6 @@ class Home extends React.Component {
           current_index: 0
       }
       this._loadImages()
-      console.log(this.state.showImageViewer);
   }
 
   _loadImages () {
@@ -36,21 +35,10 @@ class Home extends React.Component {
             path_list: path_list,
             isLoading: false
         })
-
-        console.log(this.state.path_list)
     })
   }
 
   _displayFullImage = (item, index) => {
-    console.log(index);
-    // getFullImageFromAPI(item.file_path, store.getState().userInfo.token).then((data) => {
-    //   // console.log(data.jsonData)
-    //   this.setState({
-    //     'showImageViewer': true,
-    //     'current_index': index
-    //   })
-    //   // this.props.navigation.navigate('ImageViewer', {image: data.jsonData})
-    // })
     this.setState({
       'showImageViewer': true,
       'current_index': index
@@ -58,16 +46,6 @@ class Home extends React.Component {
   }
 
   render() {
-    // this.state.file_list.foreEach(function (element) =>{
-    //   console.log(element)
-    // })
-    // for (var i = 0; i < this.state.file_list.length; i++) {
-    //   array[i]
-    // }
-    // list = this.state.file_list[0]
-    // if(list != undefined){
-    //   console.log(list.base64);
-    // }
     return (
       <View style={styles.main_container}>
         <Text style={styles.text_style}>
