@@ -7,35 +7,37 @@ import {getFullImageFromAPI} from '../API/loadImages'
 import store from '../store/configureStore'
 
 
-const images = [{
-    // Simplest usage.
-    url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
-
-    // width: number
-    // height: number
-    // Optional, if you know the image size, you can set the optimization performance
-
-    // You can pass props to <Image />.
-    // props: {
-    //     // headers: ...
-    // }
-}
-//  {
+// const images = [{
+//     // Simplest usage.
+//     url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
+//
+//     // width: number
+//     // height: number
+//     // Optional, if you know the image size, you can set the optimization performance
+//
+//     // You can pass props to <Image />.
 //     // props: {
-//     //     // Or you can set source directory.
-//     //     source: require('../background.png')
+//     //     // headers: ...
 //     // }
 // }
-]
+// //  {
+// //     // props: {
+// //     //     // Or you can set source directory.
+// //     //     source: require('../background.png')
+// //     // }
+// // }
+// ]
 
 class MyImageViewer extends React.Component {
 
   constructor(props) {
       super(props)
       console.log(props.show)
+
+
       this.state = {
         show: props.show,
-        file_list: props.file_list,
+        path_list: props.path_list,
         url_list: [],
         current_index: 0
       }
@@ -63,7 +65,7 @@ class MyImageViewer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    var dict = []
+    // var dict = []
 
     // for (var i = 0; i < nextProps.base64_list.length; i++) {
     //   dict.push({
@@ -72,8 +74,13 @@ class MyImageViewer extends React.Component {
     //   })
     // }
 
-    getFullImageFromAPI(nextProps.current_index, store.getState().userInfo.token).then((data) => {
-      urls = [{
+    console.log("create");
+    var url_list = new Array(nextProps.path_list.length).fill({url: ""})
+
+    var clicked_index = nextProps.current_index
+    // Load clicked image
+    getFullImageFromAPI(nextProps.path_list[clicked_index], store.getState().userInfo.token).then((data) => {
+      url_list[clicked_index] = {
         url: data.jsonData.base64,
         props: {
           resizeMode: "contain",
@@ -82,29 +89,101 @@ class MyImageViewer extends React.Component {
             height: data.jsonData.height
           }
         }
-      }]
-
-      // console.log("chibre")
-      // console.log(nextProps.current_index)
+      }
 
       this.setState({
         show: nextProps.show,
-        url_list: urls,
+        url_list: url_list,
+        path_list: nextProps.path_list,
         current_index: nextProps.current_index
       });
-
     })
+
+    if (clicked_index-1 >= 0){
+      getFullImageFromAPI(nextProps.path_list[clicked_index-1], store.getState().userInfo.token).then((data) => {
+        url_list[clicked_index-1] = {
+          url: data.jsonData.base64,
+          props: {
+            resizeMode: "contain",
+            style: {
+              width: data.jsonData.width,
+              height: data.jsonData.height
+            }
+          }
+        }
+      })
+    }
+
+    if (clicked_index+1 < nextProps.path_list.length){
+      getFullImageFromAPI(nextProps.path_list[clicked_index+1], store.getState().userInfo.token).then((data) => {
+        url_list[clicked_index+1] = {
+          url: data.jsonData.base64,
+          props: {
+            resizeMode: "contain",
+            style: {
+              width: data.jsonData.width,
+              height: data.jsonData.height
+            }
+          }
+        }
+      })
+    }
 
   }
 
   _onChange = (index) => {
-    
+    console.log("change");
+    console.log(this.state.path_list);
+
+    if (this.state.url_list[index].url == ""){ // Not loaded yet
+      getFullImageFromAPI(this.state.path_list[index], store.getState().userInfo.token).then((data) => {
+        this.state.url_list[index] = {
+          url: data.jsonData.base64,
+          props: {
+            resizeMode: "contain",
+            style: {
+              width: data.jsonData.width,
+              height: data.jsonData.height
+            }
+          }
+        }
+      })
+    }
+    if (index-1 >= 0 && this.state.url_list[index-1].url == ""){ // Not loaded yet
+      getFullImageFromAPI(this.state.path_list[index-1], store.getState().userInfo.token).then((data) => {
+        this.state.url_list[index-1] = {
+          url: data.jsonData.base64,
+          props: {
+            resizeMode: "contain",
+            style: {
+              width: data.jsonData.width,
+              height: data.jsonData.height
+            }
+          }
+        }
+      })
+    }
+    if (index+1 < this.state.url_list.length && this.state.url_list[index+1].url == ""){ // Not loaded yet
+      getFullImageFromAPI(this.state.path_list[index+1], store.getState().userInfo.token).then((data) => {
+        this.state.url_list[index+1] = {
+          url: data.jsonData.base64,
+          props: {
+            resizeMode: "contain",
+            style: {
+              width: data.jsonData.width,
+              height: data.jsonData.height
+            }
+          }
+        }
+      })
+    }
+
   }
 
 
 
   render() {
-      console.log(this.state.base64_list)
+      // console.log(this.state.base64_list)
       return (
           <Modal visible={this.state.show} transparent={true}>
               <ImageViewer
@@ -113,6 +192,7 @@ class MyImageViewer extends React.Component {
                 enableSwipeDown={true}
                 enableImageZoom={true}
                 onChange={this._onChange}
+                index={this.state.current_index}
                 />
           </Modal>
       )
