@@ -13,7 +13,8 @@ class Home extends React.Component {
       this.state = {
           file_list: [],
           isLoading: false,
-          showImageViewer: false
+          showImageViewer: false,
+          current_index: 0
       }
       this._loadImages()
       console.log(this.state.showImageViewer);
@@ -32,7 +33,10 @@ class Home extends React.Component {
   _displayFullImage = (item) => {
     getFullImageFromAPI(item.file_path, store.getState().userInfo.token).then((data) => {
       // console.log(data.jsonData)
-      this.setState({'showImageViewer': true})
+      this.setState({
+        'showImageViewer': true,
+        'current_index': item.file_path.toString()
+      })
       // this.props.navigation.navigate('ImageViewer', {image: data.jsonData})
     })
   }
@@ -61,11 +65,18 @@ class Home extends React.Component {
             renderItem={({item}) =>
               <TouchableOpacity
                 onPress={() => this._displayFullImage(item)}>
-                <ImageItem base64={item.base64} path={item.file_path}/>
+                <ImageItem
+                  base64={item.base64}
+                  path={item.file_path}
+                />
               </TouchableOpacity>
             }
           />
-          <MyImageViewer show={this.state.showImageViewer} base64_list={this.state.file_list}/>
+          <MyImageViewer
+            show={this.state.showImageViewer}
+            base64_list={this.state.file_list}
+            current_index={this.state.current_index}
+          />
         </View>
       </View>
     )

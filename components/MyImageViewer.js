@@ -36,7 +36,8 @@ class MyImageViewer extends React.Component {
       this.state = {
         show: props.show,
         file_list: props.file_list,
-        url_list: []
+        url_list: [],
+        current_index: 0
       }
   }
 
@@ -62,7 +63,16 @@ class MyImageViewer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    getFullImageFromAPI(nextProps.base64_list[0].file_path, store.getState().userInfo.token).then((data) => {
+    var dict = []
+
+    // for (var i = 0; i < nextProps.base64_list.length; i++) {
+    //   dict.push({
+    //     "key": nextProps.base64_list[i].file_path,
+    //     "value": nextProps.base64_list[i].base64
+    //   })
+    // }
+
+    getFullImageFromAPI(nextProps.current_index, store.getState().userInfo.token).then((data) => {
       urls = [{
         url: data.jsonData.base64,
         props: {
@@ -74,15 +84,21 @@ class MyImageViewer extends React.Component {
         }
       }]
 
-      console.log(urls)
+      // console.log("chibre")
+      // console.log(nextProps.current_index)
 
       this.setState({
         show: nextProps.show,
-        url_list: urls
+        url_list: urls,
+        current_index: nextProps.current_index
       });
 
     })
 
+  }
+
+  _onChange = (index) => {
+    
   }
 
 
@@ -96,6 +112,7 @@ class MyImageViewer extends React.Component {
                 onCancel = {this._onCancel}
                 enableSwipeDown={true}
                 enableImageZoom={true}
+                onChange={this._onChange}
                 />
           </Modal>
       )
