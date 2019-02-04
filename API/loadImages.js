@@ -10,13 +10,17 @@ function processAPIResponse(response) {
   }))
 }
 
-export function getLatestImagesFromAPI(token) {
+export function getLatestImagesFromAPI(token, page, page_size) {
   return fetch(API_URL + "get-latest-images", {
-    method: 'GET',
+    method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token  }
+      'Authorization': 'Bearer ' + token  },
+    body: JSON.stringify({
+      page: page,
+      page_size: page_size
+    })
     })
     .then(processAPIResponse)
     .catch(error => console.error(error))
@@ -35,13 +39,17 @@ export function getAllYearsFromAPI(token) {
 }
 
 
-export function getImagesFromAPI(gallery_slug, token) {
+export function getImagesFromAPI(gallery_slug, token, page, page_size) {
   return fetch(API_URL + "get-images/" + gallery_slug, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token  }
+      'Authorization': 'Bearer ' + token  },
+    body: JSON.stringify({
+      page: page,
+      page_size: page_size
+    })
     })
     .then(processAPIResponse)
     .catch(error => console.error(error))

@@ -4,6 +4,9 @@ import ImageResizeMode from 'react-native/Libraries/Image/ImageResizeMode'
 
 class ImageItem extends React.Component {
 
+  constructor(props) {
+      super(props)
+  }
 
 
   render() {
@@ -12,7 +15,7 @@ class ImageItem extends React.Component {
     // file_info["base64"].splice(0, 2)
     return (
         <Image
-          style={styles.image}
+          style={this.props.style}
           source={{uri: encodedData}}//'https://facebook.github.io/react/logo-og.png'}}//`data:image/jpg;base64,${encodedData}`}}
         />
     )
@@ -20,14 +23,17 @@ class ImageItem extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    image: {
-      flex: 1,
-      margin: 5,
-      width: 226,
-      height: 226
-      // resizeMode: ImageResizeMode.contain
-      // backgroundColor: '#DDDDDD'
-    }
+    // image: {
+    //   // flex: 1,
+    //   // margin: 5,
+    //   // padding: 5,
+    //   width: "100%",
+    //   height: 150,
+    //   // width: "100%",
+    //   // height: "100%",
+    //   // resizeMode: ImageResizeMode.contain
+    //   // backgroundColor: '#DDDDDD'
+    // }
 })
 
 export default ImageItem

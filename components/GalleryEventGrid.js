@@ -16,14 +16,35 @@ class GalleryEventGrid extends React.Component {
           path_list: [],
           isLoading: false,
           showImageViewer: false,
-          current_index: 0
+          current_index: 0,
+          page: 0,
+          page_size: 10
       }
-      this._loadImages()
+      // this._loadImages()
+      this._loadNextImages()
   }
 
-  _loadImages () {
-    this.setState({isLoading: true})
-    getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token).then(data => {
+  // _loadImages () {
+  //   this.setState({isLoading: true})
+  //   getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token).then(data => {
+  //
+  //       var path_list = new Array(data.jsonData.approved_files.length).fill("")
+  //
+  //       for (var i = 0; i < data.jsonData.approved_files.length; i++) {
+  //         path_list[i] = data.jsonData.approved_files[i].file_path
+  //       }
+  //
+  //       this.setState({
+  //           file_list: data.jsonData.approved_files,
+  //           path_list: path_list,
+  //           isLoading: false
+  //       })
+  //   })
+  // }
+
+  _loadNextImages () {
+    // this.setState({isLoading: true})
+    getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token, this.state.page+1, this.state.page_size).then(data => {
 
         var path_list = new Array(data.jsonData.approved_files.length).fill("")
 
@@ -32,11 +53,13 @@ class GalleryEventGrid extends React.Component {
         }
 
         this.setState({
-            file_list: data.jsonData.approved_files,
-            path_list: path_list,
-            isLoading: false
+            file_list: this.state.file_list.concat(data.jsonData.approved_files),
+            path_list: this.state.path_list.concat(path_list),
+            isLoading: false,
+            page: this.state.page+1
         })
     })
+
   }
 
   _displayFullImage = (item, index) => {
@@ -55,10 +78,20 @@ class GalleryEventGrid extends React.Component {
           numColumns={numColumns}
           renderItem={({item, index}) =>
             <TouchableOpacity
+              style={styles.touchable_opacity}
               onPress={() => this._displayFullImage(item, index)}>
-              <ImageItem base64={item.base64} path={item.file_path} />
+              <ImageItem
+                base64={item.base64}
+                path={item.file_path}
+                style={styles.image}
+              />
             </TouchableOpacity>
           }
+          onEndReachedThreshold = {0.2}
+          onEndReached = {() => {
+            console.log("onEndReached")
+            this._loadNextImages()
+          }}
         />
         <MyImageViewer
           show={this.state.showImageViewer}
@@ -82,6 +115,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  touchable_opacity: {
+    flex: 1,
+    margin: 2,
+
+  },
   image_text: {
     fontWeight: 'bold',
     textTransform: 'uppercase',
@@ -89,10 +127,8 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   image: {
-    flex: 1,
-    margin: 5,
+    width: "100%",
     height: 150,
-    backgroundColor: '#DDDDDD'
   }
 })
 

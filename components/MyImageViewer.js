@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image } from 'react-native'
+import { StyleSheet, View, Text, Image, ActivityIndicator } from 'react-native'
 import ImageResizeMode from 'react-native/Libraries/Image/ImageResizeMode'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Modal } from 'react-native';
@@ -209,7 +209,16 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     resizeMode: ImageResizeMode.contain
-  }
+  },
+  // loading_container: {
+  //   position: 'absolute',
+  //   left: 0,
+  //   right: 0,
+  //   top: 100,
+  //   bottom: 0,
+  //   alignItems: 'center',
+  //   justifyContent: 'center'
+  // }
 })
 
 export default MyImageViewer
