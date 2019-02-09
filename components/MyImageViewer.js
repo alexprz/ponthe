@@ -1,10 +1,11 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, Text, Image, ActivityIndicator, Dimensions } from 'react-native'
 import ImageResizeMode from 'react-native/Libraries/Image/ImageResizeMode'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Modal } from 'react-native';
 import {getFullImageFromAPI} from '../API/loadImages'
 import store from '../store/configureStore'
+import {BASE_URL, API_URL} from '../constants'
 
 
 // const images = [{
@@ -28,6 +29,13 @@ import store from '../store/configureStore'
 // // }
 // ]
 
+function mylog(props) {
+  console.log("LOG PROPS");
+  // console.log(props.source.file_path);
+  console.log(props);
+  return ""
+}
+
 class MyImageViewer extends React.Component {
 
   constructor(props) {
@@ -37,6 +45,7 @@ class MyImageViewer extends React.Component {
       this.state = {
         show: props.show,
         path_list: props.path_list,
+        dim_list: props.dim_list,
         url_list: [],
         current_index: 0,
         first_load: true,
@@ -89,8 +98,65 @@ class MyImageViewer extends React.Component {
     console.log("receive new props");
     console.log(this.state.first_load);
     console.log(nextProps.current_index)
+    console.log(nextProps.path_list);
+    console.log(nextProps.dim_list);
     if(this.state.first_load){
-      var url_list = new Array(nextProps.path_list.length).fill({url: "", loaded:false})
+      var url_list = new Array(nextProps.path_list.length)
+      // .fill({
+      //   url: "",//"https://www.payote.fr/themes/pf_newfashionstore/img/loader.gif",
+      //   loaded: false,
+      //   props: {}
+      // })
+
+      for (var i = 0; i < url_list.length; i++) {
+        var temp = nextProps.path_list[i]
+        console.log(temp);
+        url_list[i] = {
+          url: "",//"https://www.payote.fr/themes/pf_newfashionstore/img/loader.gif",
+          loaded: false,
+          props:
+          {
+            source: {
+              file_path: nextProps.path_list[i],
+              width: nextProps.dim_list[i].width,
+              height: nextProps.dim_list[i].height
+            },
+            resizeMode: "contain",
+            // style: {
+            //   width: 500,
+            //   height: 500
+            // }
+          }
+        }
+
+        // .source.file_path = temp
+      }
+      console.log("url list");
+      console.log(url_list);
+      // var url_list = new Array(nextProps.path_list.length).fill({
+      //   url: "",
+      //   props: {
+      //     custom_source : {}
+      //   },
+      //   loaded: false})
+      // for (var i = 0; i < url_list.length; i++) {
+      //   url_list[i].url = ""
+      //   url_list[i].props.custom_source = {
+      //     uri: API_URL + 'get-full-image',
+      //     method: 'POST',
+      //     headers: {
+      //       Accept: 'application/json',
+      //       'Content-Type': 'application/json',
+      //       'Authorization': 'Bearer ' + store.getState().userInfo.token
+      //     },
+      //     body: JSON.stringify({
+      //       file_path: nextProps.path_list[i]
+      //     })
+      //   }
+      // }
+      // console.log(url_list);
+
+
       this.state.first_load = false
     }
     else {
@@ -98,20 +164,21 @@ class MyImageViewer extends React.Component {
       var url_list = this.state.url_list
     }
 
+    // console.log(url_list);
     this.state.url_list = url_list
     this.state.path_list = nextProps.path_list,
     this.state.current_index = nextProps.current_index
 
-    // this.setState({
-    //   // show: nextProps.show,
-    //   url_list: url_list,
-    //   path_list: nextProps.path_list,
-    //   current_index: nextProps.current_index
-    // });
+    this.setState({
+      show: nextProps.show
+      // url_list: url_list,
+      // path_list: nextProps.path_list,
+      // current_index: nextProps.current_index
+    });
 
 
     var clicked_index = nextProps.current_index
-    this.triload(clicked_index, true)
+    // this.triload(clicked_index, true)
     // Load clicked image
     // console.log("loading clicked");
     // getFullImageFromAPI(nextProps.path_list[clicked_index], store.getState().userInfo.token).then((data) => {
@@ -181,7 +248,7 @@ class MyImageViewer extends React.Component {
   _onChange = (index) => {
     console.log("change");
 
-    this.triload(index)
+    // this.triload(index)
     // console.log(this.state.path_list);
 
     // if (this.state.url_list[index].url == ""){ // Not loaded yet
@@ -335,14 +402,48 @@ class MyImageViewer extends React.Component {
                 onChange={this._onChange}
                 index={this.state.current_index}
                 swipeDownThreshold={50}
+                enablePreload = {true}
+                renderImage={ props =>
+                  // <View style={styles.container}>
+                    <Image {...props} source=
+                      {{
+                        uri: API_URL + 'get-full-image-raw',
+                        method: 'POST',
+                        headers: {
+                          Accept: 'application/json',
+                          'Content-Type': 'application/json',
+                          'Authorization': 'Bearer ' + store.getState().userInfo.token + mylog(props)
+                        },
+                        body: JSON.stringify({
+                          file_path: props.source.file_path//"ma-gallerie/qA9mDkFwpiHPaYTHBWPo.png"
+                        })
+                      }}
+                      // style={{width: props.source.width, height: props.source.height}}
+                      resizeMode= "contain"
+                      />
+                    // </View>
+                }
                 />
           </Modal>
       )
   }
 }
+// {{
+//   uri: API_URL + 'get-full-image',
+//   method: 'POST',
+//   headers: {
+//     Accept: 'application/json',
+//     'Content-Type': 'application/json',
+//     'Authorization': 'Bearer ' + store.getState().userInfo.token
+//   },
+//   body: JSON.stringify({
+//     file_path: "test/FrpWbsYIlGbfjueQdgBf.png"
+//   })
+// }}
+// const loaderGif = require('../images/loader.gif')
+// console.log(loaderGif);
 
-const loaderGif = require('../images/loader.gif')
-console.log(loaderGif);
+var {screen_height, screen_width} = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   main_container: {
@@ -350,6 +451,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: "black"
+  },
+  container: {
+    // width: "100%",
+    width: screen_width,
+    height: screen_height,
+    overflow: 'visible',
+    backgroundColor: "red"
   },
   image: {
     flex: 1,

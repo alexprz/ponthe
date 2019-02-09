@@ -1,17 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native'
 import {getLatestImagesFromAPI, getFullImageFromAPI} from '../API/loadImages'
 import ImageItem from './ImageItem'
 import store from '../store/configureStore'
 import {SecureStore} from 'expo';
 import MyImageViewer from './MyImageViewer'
+import {API_URL} from '../constants'
 
 class Home extends React.Component {
   constructor(props) {
       super(props)
       this.state = {
           file_list: [],
+          dim_list: [],
           path_list: [],
           isLoading: false,
           showImageViewer: false,
@@ -53,14 +55,19 @@ class Home extends React.Component {
     getLatestImagesFromAPI(store.getState().userInfo.token, this.state.page+1, this.state.page_size).then(data => {
 
         var path_list = new Array(data.jsonData.latest_files.length).fill("")
+        var dim_list = new Array(data.jsonData.latest_files.length).fill({})
 
         for (var i = 0; i < data.jsonData.latest_files.length; i++) {
           path_list[i] = data.jsonData.latest_files[i].file_path
+          dim_list[i] = data.jsonData.latest_files[i].full_dimension
         }
+
+        // console.log(dim_list);
 
         this.setState({
             file_list: this.state.file_list.concat(data.jsonData.latest_files),
             path_list: this.state.path_list.concat(path_list),
+            dim_list: this.state.dim_list.concat(dim_list),
             isLoading: false,
             page: this.state.page+1,
             current_index: -1
@@ -75,6 +82,22 @@ class Home extends React.Component {
         <Text style={styles.text_style}>
           Dernières photos ajoutées
         </Text>
+        <Image source={{uri: 'https:avatars2.githubusercontent.com/u/7970947?v=3&s=460'}} style={{width: 100, height: 100}}/>
+        <Image source=
+          {{
+            uri: API_URL + 'get-full-image-raw',
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + store.getState().userInfo.token
+            },
+            body: JSON.stringify({
+              file_path: "ma-gallerie/qA9mDkFwpiHPaYTHBWPo.png"
+            })
+          }}
+          style={{width: 100, height: 100}}/>
+
           <FlatList
             data={this.state.file_list}
             keyExtractor={(item) => item.file_path.toString()}
@@ -99,6 +122,7 @@ class Home extends React.Component {
           <MyImageViewer
             show={this.state.showImageViewer}
             path_list={this.state.path_list}
+            dim_list={this.state.dim_list}
             current_index={this.state.current_index}
           />
       </View>
