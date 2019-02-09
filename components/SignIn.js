@@ -6,9 +6,7 @@ import { getToken, getUserInfoByToken } from '../API/connexion'
 import UserInfo from '../lib/userClass'
 import { ponthe_color } from '../constants'
 import store from '../store/configureStore'
-// import {SecureStore} from 'expo';
 import {AsyncStorage} from 'react-native';
-
 
 class SignIn extends React.Component {
 
@@ -23,6 +21,7 @@ class SignIn extends React.Component {
     this._retrieveToken()
   }
 
+  // Give a description?
   _retrieveToken = async () => {
     try {
       const value = await AsyncStorage.getItem('@Ponthe:token');
@@ -42,6 +41,7 @@ class SignIn extends React.Component {
     }
   };
 
+  // Give a description?
   _storeToken = async (token) => {
     await AsyncStorage.setItem('@Ponthe:token', token);
   };
@@ -52,6 +52,36 @@ class SignIn extends React.Component {
 
   _passwordInputChanged(password) {
     this.password = password
+  }
+
+  // Is it still necessary?
+  // _getUserNames(token) {
+  //   getUserInfoByToken(token).then(res => {
+  //     if (res.statusCode == 200) {
+  //       const userInfo = new UserInfo()
+  //       userInfo.email = res.jsonData.email
+  //       userInfo.firstName = res.jsonData.firstname
+  //       userInfo.lastName = res.jsonData.lastname
+  //       userInfo.token = token
+  //       return userInfo
+  //     }
+  //   })
+  // }
+
+  // Method that calls (GET) get_user_by_jwt only in order to get
+  // the user's and store them
+  _loadUserNames(token) {
+    getUserInfoByToken(token).then(res => {
+      if (res.statusCode == 200) {
+        const userInfo = new UserInfo()
+        userInfo.firstName = res.jsonData.firstname
+        userInfo.lastName = res.jsonData.lastname
+        const action = { type: "UPDATE_USERNAMES", value: userInfo }
+        this.props.dispatch(action)
+        store.dispatch(action)
+      }
+      else console.log(res.statusCode)
+    })
   }
 
   _translateErrorMessage(statusCode, msg) {
@@ -71,33 +101,10 @@ class SignIn extends React.Component {
     }
   }
 
-  _getUserNames(token) {
-    getUserInfoByToken(token).then(res => {
-      if (res.statusCode == 200) {
-        const userInfo = new UserInfo()
-        userInfo.email = res.jsonData.email
-        userInfo.firstName = res.jsonData.firstname
-        userInfo.lastName = res.jsonData.lastname
-        userInfo.token = token
-        return userInfo
-      }
-    })
-  }
-
-  _loadUserNames(token) {
-    getUserInfoByToken(token).then(res => {
-      if (res.statusCode == 200) {
-        const userInfo = new UserInfo()
-        userInfo.firstName = res.jsonData.firstname
-        userInfo.lastName = res.jsonData.lastname
-        const action = { type: "UPDATE_USERNAMES", value: userInfo }
-        this.props.dispatch(action)
-        store.dispatch(action)
-      }
-      else console.log(res.statusCode)
-    })
-  }
-
+  // Method that calls the API functions (POST) login and (GET)
+  // get_user_by_jwt (via _loadUserNames method) in order to get all the
+  // informations needed about the user and store them;
+  // and it navigates to the application
   _connexion() {
     getToken(this.email, this.password).then(res => {
       if (res.statusCode == 200) {
@@ -118,24 +125,14 @@ class SignIn extends React.Component {
     })
   }
 
-  _register() {
+  _goSignUp() {
     this.props.navigation.navigate('SignUp')
   }
 
-  // Attempt to fix async issues
-  // _connexion() {
-  //   getToken(this.email, this.password).then(res => {
-  //     if (res.statusCode == 200) {
-  //       userInfo = this._getUserNames(res.jsonData.token)
-  //       const action = { type: "UPDATE_USERIDS", value: userInfo }
-  //       this.props.dispatch(action)
-  //       this.props.navigation.navigate('Home')
-  //     }
-  //     else {
-  //       this.setState({msg: res.jsonData.msg})
-  //     }
-  //   })
-  // }
+  _goResetPassword() {
+    this.props.navigation.navigate('Reset')
+    //this._shortCutConnexion();
+  }
 
   // Temporary function to shortcut sign in
   _shortCutConnexion() {
@@ -186,14 +183,14 @@ class SignIn extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
             style = {styles.secondary_button_shape}
-            onPress = {() => this.props.navigation.navigate('SignUp')}>
+            onPress = {() => this._goSignUp()}>
             <Text style = {styles.secondary_button_text}>
               Créer un compte
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style = {styles.secondary_button_shape}
-            onPress = {() => this._shortCutConnexion()}>
+            onPress = {() => this._goResetPassword()}>
             <Text style = {styles.secondary_button_text}>
               Mot de passe oublié ?
             </Text>

@@ -4,6 +4,7 @@ import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 
+// Function to use for unavailable functiunalities
 const raiseAlert = () => (
   Alert.alert(
     'Fonctionnalité indisponible',
@@ -15,6 +16,7 @@ const raiseAlert = () => (
   )
 )
 
+// Custom tab bar component
 const TabBarContentComponent = (props) => (
   <View style = {styles.main_container}>
     <TouchableOpacity
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
   main_container: {
     height: 60,
     flexDirection: 'row',
-    backgroundColor: '#EEEEEE' // #DDDDDD
+    backgroundColor: '#EEEEEE'
   },
   item_container: {
     flex: 1,

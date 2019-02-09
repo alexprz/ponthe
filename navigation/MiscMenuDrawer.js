@@ -8,10 +8,12 @@ import { FontAwesome } from '@expo/vector-icons'
 import { ponthe_color } from '../constants'
 import {AsyncStorage} from 'react-native';
 
+// Give a description?
 _eraseToken = async () => {
   await AsyncStorage.removeItem('@Ponthe:token');
 };
 
+// Custom drawer component
 const DrawerContentComponent = (props) => (
   <ScrollView>
     <SafeAreaView style = {styles.main_container}>
