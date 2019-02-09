@@ -35,6 +35,7 @@ class Gallery extends React.Component {
     return (
       <View style={styles.main_container}>
         <FlatList
+
           data={this.state.year_list}
           keyExtractor={(item) => item.year.toString()}
           renderItem={({item}) =>
@@ -52,6 +53,8 @@ class Gallery extends React.Component {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
+    // width: "100%",
+    // height: "100%",
     paddingBottom: 10,
     alignItems: 'center',
     justifyContent: 'center',

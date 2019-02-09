@@ -32,15 +32,19 @@ class MyImageViewer extends React.Component {
 
   constructor(props) {
       super(props)
-      console.log(props.show)
-
+      // console.log(props.show)
 
       this.state = {
         show: props.show,
         path_list: props.path_list,
         url_list: [],
-        current_index: 0
+        current_index: 0,
+        first_load: true,
+        // page: 1
       }
+
+      console.log("first_load");
+      console.log(this.state.first_load);
   }
 
   // render() {
@@ -74,70 +78,180 @@ class MyImageViewer extends React.Component {
     //   })
     // }
 
-    console.log("create");
-    var url_list = new Array(nextProps.path_list.length).fill({url: ""})
+    console.log(nextProps.current_index);
+    if(nextProps.current_index == -1)//L'appel à cette fonction est générée par un changement de page, pas par un click
+    {
+      console.log("current index -1");
+      return
+
+    }
+
+    console.log("receive new props");
+    console.log(this.state.first_load);
+    console.log(nextProps.current_index)
+    if(this.state.first_load){
+      var url_list = new Array(nextProps.path_list.length).fill({url: "", loaded:false})
+      this.state.first_load = false
+    }
+    else {
+      console.log("loading from previous");
+      var url_list = this.state.url_list
+    }
+
+    this.state.url_list = url_list
+    this.state.path_list = nextProps.path_list,
+    this.state.current_index = nextProps.current_index
+
+    // this.setState({
+    //   // show: nextProps.show,
+    //   url_list: url_list,
+    //   path_list: nextProps.path_list,
+    //   current_index: nextProps.current_index
+    // });
+
 
     var clicked_index = nextProps.current_index
+    this.triload(clicked_index, true)
     // Load clicked image
-    getFullImageFromAPI(nextProps.path_list[clicked_index], store.getState().userInfo.token).then((data) => {
-      url_list[clicked_index] = {
-        url: data.jsonData.base64,
-        props: {
-          resizeMode: "contain",
-          style: {
-            width: data.jsonData.width,
-            height: data.jsonData.height
-          }
-        }
-      }
-
-      this.setState({
-        show: nextProps.show,
-        url_list: url_list,
-        path_list: nextProps.path_list,
-        current_index: nextProps.current_index
-      });
-    })
-
-    if (clicked_index-1 >= 0){
-      getFullImageFromAPI(nextProps.path_list[clicked_index-1], store.getState().userInfo.token).then((data) => {
-        url_list[clicked_index-1] = {
-          url: data.jsonData.base64,
-          props: {
-            resizeMode: "contain",
-            style: {
-              width: data.jsonData.width,
-              height: data.jsonData.height
-            }
-          }
-        }
-      })
-    }
-
-    if (clicked_index+1 < nextProps.path_list.length){
-      getFullImageFromAPI(nextProps.path_list[clicked_index+1], store.getState().userInfo.token).then((data) => {
-        url_list[clicked_index+1] = {
-          url: data.jsonData.base64,
-          props: {
-            resizeMode: "contain",
-            style: {
-              width: data.jsonData.width,
-              height: data.jsonData.height
-            }
-          }
-        }
-      })
-    }
+    // console.log("loading clicked");
+    // getFullImageFromAPI(nextProps.path_list[clicked_index], store.getState().userInfo.token).then((data) => {
+    //   url_list[clicked_index] = {
+    //     url: data.jsonData.base64,
+    //     props: {
+    //       resizeMode: "contain",
+    //       style: {
+    //         width: data.jsonData.width,
+    //         height: data.jsonData.height
+    //       }
+    //     }
+    //   }
+    //
+    //   this.setState({
+    //     show: nextProps.show,
+    //     url_list: url_list,
+    //     path_list: nextProps.path_list,
+    //     current_index: nextProps.current_index
+    //   });
+    //
+    //   console.log("clicked loaded");
+    // })
+    //
+    // if (clicked_index-1 >= 0){
+    //   console.log("loading previous");
+    //   getFullImageFromAPI(nextProps.path_list[clicked_index-1], store.getState().userInfo.token).then((data) => {
+    //     url_list[clicked_index-1] = {
+    //       url: data.jsonData.base64,
+    //       props: {
+    //         resizeMode: "contain",
+    //         style: {
+    //           width: data.jsonData.width,
+    //           height: data.jsonData.height
+    //         }
+    //       }
+    //     }
+    //     console.log("previous loaded");
+    //   })
+    // }
+    // else {
+    //   console.log("previous already loaded");
+    // }
+    //
+    // if (clicked_index+1 < nextProps.path_list.length){
+    //   console.log("loading next");
+    //   getFullImageFromAPI(nextProps.path_list[clicked_index+1], store.getState().userInfo.token).then((data) => {
+    //     url_list[clicked_index+1] = {
+    //       url: data.jsonData.base64,
+    //       props: {
+    //         resizeMode: "contain",
+    //         style: {
+    //           width: data.jsonData.width,
+    //           height: data.jsonData.height
+    //         }
+    //       }
+    //     }
+    //     console.log("next loaded");
+    //   })
+    // }
+    // else {
+    //   console.log("next already loaded");
+    // }
 
   }
 
   _onChange = (index) => {
     console.log("change");
-    console.log(this.state.path_list);
 
-    if (this.state.url_list[index].url == ""){ // Not loaded yet
+    this.triload(index)
+    // console.log(this.state.path_list);
+
+    // if (this.state.url_list[index].url == ""){ // Not loaded yet
+    //   console.log("loading clicked");
+    //   getFullImageFromAPI(this.state.path_list[index], store.getState().userInfo.token).then((data) => {
+    //     this.state.url_list[index] = {
+    //       url: data.jsonData.base64,
+    //       props: {
+    //         resizeMode: "contain",
+    //         style: {
+    //           width: data.jsonData.width,
+    //           height: data.jsonData.height
+    //         }
+    //       }
+    //     }
+    //     console.log("clicked loaded");
+    //   })
+    // }
+    // else {
+    //   console.log("clicked already loaded");
+    // }
+    //
+    // if (index-1 >= 0 && this.state.url_list[index-1].url == ""){ // Not loaded yet
+    //   console.log("loading previous");
+    //   getFullImageFromAPI(this.state.path_list[index-1], store.getState().userInfo.token).then((data) => {
+    //     this.state.url_list[index-1] = {
+    //       url: data.jsonData.base64,
+    //       props: {
+    //         resizeMode: "contain",
+    //         style: {
+    //           width: data.jsonData.width,
+    //           height: data.jsonData.height
+    //         }
+    //       }
+    //     }
+    //     console.log("previous loaded");
+    //   })
+    // }
+    // else {
+    //   console.log("previous already loaded");
+    // }
+    //
+    // if (index+1 < this.state.url_list.length && this.state.url_list[index+1].url == ""){ // Not loaded yet
+    //   console.log("loading next");
+    //   getFullImageFromAPI(this.state.path_list[index+1], store.getState().userInfo.token).then((data) => {
+    //     this.state.url_list[index+1] = {
+    //       url: data.jsonData.base64,
+    //       props: {
+    //         resizeMode: "contain",
+    //         style: {
+    //           width: data.jsonData.width,
+    //           height: data.jsonData.height
+    //         }
+    //       }
+    //     }
+    //     console.log("next loaded");
+    //   })
+    // }
+    // else {
+    //   console.log("next already loaded");
+    // }
+
+  }
+
+  triload (index, refresh_show = false) {
+    if (!this.state.url_list[index].loaded){ // Not loaded yet
+      console.log("loading clicked");
       getFullImageFromAPI(this.state.path_list[index], store.getState().userInfo.token).then((data) => {
         this.state.url_list[index] = {
+          loaded: true,
           url: data.jsonData.base64,
           props: {
             resizeMode: "contain",
@@ -147,37 +261,64 @@ class MyImageViewer extends React.Component {
             }
           }
         }
+        if(refresh_show){
+          this.setState({
+            show: true
+          });
+        }
+        console.log("clicked loaded");
       })
     }
-    if (index-1 >= 0 && this.state.url_list[index-1].url == ""){ // Not loaded yet
-      getFullImageFromAPI(this.state.path_list[index-1], store.getState().userInfo.token).then((data) => {
-        this.state.url_list[index-1] = {
-          url: data.jsonData.base64,
-          props: {
-            resizeMode: "contain",
-            style: {
-              width: data.jsonData.width,
-              height: data.jsonData.height
-            }
-          }
-        }
-      })
-    }
-    if (index+1 < this.state.url_list.length && this.state.url_list[index+1].url == ""){ // Not loaded yet
-      getFullImageFromAPI(this.state.path_list[index+1], store.getState().userInfo.token).then((data) => {
-        this.state.url_list[index+1] = {
-          url: data.jsonData.base64,
-          props: {
-            resizeMode: "contain",
-            style: {
-              width: data.jsonData.width,
-              height: data.jsonData.height
-            }
-          }
-        }
-      })
+    else {
+      if(refresh_show){
+        this.setState({
+          show: true
+        });
+      }
+      console.log("clicked already loaded");
     }
 
+    if (index-1 >= 0 && !this.state.url_list[index-1].loaded){ // Not loaded yet
+      console.log("loading previous");
+      getFullImageFromAPI(this.state.path_list[index-1], store.getState().userInfo.token).then((data) => {
+        this.state.url_list[index-1] = {
+          loaded: true,
+          url: data.jsonData.base64,
+          props: {
+            resizeMode: "contain",
+            style: {
+              width: data.jsonData.width,
+              height: data.jsonData.height
+            }
+          }
+        }
+        console.log("previous loaded");
+      })
+    }
+    else {
+      console.log("previous already loaded");
+    }
+
+    if (index+1 < this.state.url_list.length && !this.state.url_list[index+1].loaded){ // Not loaded yet
+      console.log("loading next");
+      getFullImageFromAPI(this.state.path_list[index+1], store.getState().userInfo.token).then((data) => {
+        this.state.url_list[index+1] = {
+          loaded: true,
+          url: data.jsonData.base64,
+          props: {
+            resizeMode: "contain",
+            style: {
+              width: data.jsonData.width,
+              height: data.jsonData.height
+            }
+          }
+        }
+        console.log("next loaded");
+      })
+    }
+    else {
+      console.log("next already loaded");
+    }
   }
 
 
@@ -193,11 +334,15 @@ class MyImageViewer extends React.Component {
                 enableImageZoom={true}
                 onChange={this._onChange}
                 index={this.state.current_index}
+                swipeDownThreshold={50}
                 />
           </Modal>
       )
   }
 }
+
+const loaderGif = require('../images/loader.gif')
+console.log(loaderGif);
 
 const styles = StyleSheet.create({
   main_container: {

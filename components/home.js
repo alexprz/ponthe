@@ -62,7 +62,8 @@ class Home extends React.Component {
             file_list: this.state.file_list.concat(data.jsonData.latest_files),
             path_list: this.state.path_list.concat(path_list),
             isLoading: false,
-            page: this.state.page+1
+            page: this.state.page+1,
+            current_index: -1
         })
     })
 
