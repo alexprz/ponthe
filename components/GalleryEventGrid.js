@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Text, FlatList,
   ImageBackground, TouchableOpacity } from 'react-native'
-import event_data from '../helpers/GalleryEventData.js'
+//import event_data from '../helpers/GalleryEventData.js'
 import ImageItem from './ImageItem'
 import {getImagesFromAPI} from '../API/loadImages'
 import store from '../store/configureStore'

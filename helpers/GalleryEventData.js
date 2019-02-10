@@ -1,3 +1,6 @@
+// Fake/artificial/simulated data for helping development
+// Could be removed once the datas from Ponthe gallery will be reachable via
+// API functions calls
 export default data =
   {
     id: 0,

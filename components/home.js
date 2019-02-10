@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, View, Text, FlatList, TouchableOpacity,
+  TouchableWithoutFeedback } from 'react-native'
+import { SecureStore } from 'expo';
 import {getLatestImagesFromAPI, getFullImageFromAPI} from '../API/loadImages'
 import ImageItem from './ImageItem'
 import store from '../store/configureStore'
-import {SecureStore} from 'expo';
 import MyImageViewer from './MyImageViewer'
 
 class Home extends React.Component {

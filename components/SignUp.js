@@ -43,10 +43,10 @@ class SignUp extends React.Component {
     this.promotionYear = promo
   }
 
-  _raiseRegistrationAlert() {
+  _raiseRegisterAlert() {
     Alert.alert(
       'Confirmation de la création du compte',
-      'Un mail de confirmation t\'as été envoyé sur ton adresse Zimbra',
+      'Un mail de confirmation t\'a été envoyé sur ton adresse Zimbra',
       [
         {text: 'OK', onPress: () => this.props.navigation.navigate('SignIn')},
       ],
@@ -54,16 +54,26 @@ class SignUp extends React.Component {
     )
   }
 
+  _translateErrorMessage(statusCode, msg) {
+    if (statusCode == 500) {
+      return 'Informations incomplètes'
+    }
+    else {
+      return msg
+    }
+  }
+
+  // Method that calls the API function (POST) register in order to create
+  // a new account
   _register() {
     postRegistration(this.firstName, this.lastName, this.email, this.password,
       this.passwordConfirmation, this.promotionYear).then(res => {
       if (res.statusCode == 200) {
-        this._raiseRegistrationAlert();
+        this._raiseRegisterAlert();
       }
       else {
-        console.log(res.statusCode)
-        this.setState({msg:res.jsonData.msg})
-        this._raiseRegistrationAlert();
+        this.setState({msg:
+          this._translateErrorMessage(res.statusCode, res.jsonData.msg)})
       }
     })
   }
