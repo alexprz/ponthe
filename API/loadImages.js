@@ -1,14 +1,5 @@
-import { API_URL } from '../constants'
-
-function processAPIResponse(response) {
-  // console.log(response)
-  const statusCode = response.status;
-  const jsonData = response.json();
-  return Promise.all([statusCode, jsonData]).then(res => ({
-    statusCode: res[0],
-    jsonData: res[1]
-  }))
-}
+import { processAPIResponse } from './commons.js'
+import { API_URL } from '../constants.js'
 
 export function getLatestImagesFromAPI(token, page, page_size) {
   return fetch(API_URL + "get-latest-images", {

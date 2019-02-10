@@ -4,7 +4,6 @@ import { StyleSheet, View, Text, FlatList, TouchableOpacity, TouchableWithoutFee
 import {getLatestImagesFromAPI, getFullImageFromAPI} from '../API/loadImages'
 import ImageItem from './ImageItem'
 import store from '../store/configureStore'
-import {SecureStore} from 'expo';
 import MyImageViewer from './MyImageViewer'
 import {API_URL} from '../constants'
 
