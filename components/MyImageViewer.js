@@ -18,7 +18,6 @@ class MyImageViewer extends React.Component {
         url_list: [],
         current_index: 0,
       }
-
   }
 
   _onCancel = () => {
@@ -36,7 +35,6 @@ class MyImageViewer extends React.Component {
 
     for (var i = 0; i < url_list.length; i++) {
       var temp = nextProps.full_path_list[i]
-      // console.log(temp);
       url_list[i] = {
         url: "",
         loaded: false,
@@ -64,8 +62,6 @@ class MyImageViewer extends React.Component {
   }
 
   render() {
-    // console.log("current index clicked");
-    // console.log(this.state.current_index);
       return (
           <Modal visible={this.state.show} transparent={true}>
               <ImageViewer
