@@ -17,7 +17,6 @@ class GalleryYearList extends React.Component {
             <TouchableOpacity
               onPress={() => this.props.displayGalleryEvent(item)}>
               <ImageItem
-                // base64={item.image}
                 path={item.file_path}
                 style={styles.image}
               />
@@ -45,7 +44,6 @@ const styles = StyleSheet.create({
   },
   event_text: {
     fontWeight: 'bold',
-    //textTransform: 'uppercase',
     fontSize: 15,
     color: 'white'
   },
@@ -54,8 +52,6 @@ const styles = StyleSheet.create({
     margin: 5,
     width: 226,
     height: 226,
-    // margin: 5,
-    // backgroundColor: '#DDDDDD'
   }
 })
 

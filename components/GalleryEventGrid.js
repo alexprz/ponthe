@@ -70,33 +70,6 @@ class GalleryEventGrid extends React.Component {
     }
   }
 
-  // _loadNextImages () {
-  //   // this.setState({isLoading: true})
-  //   getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token, this.state.page+1, this.state.page_size).then(data => {
-  //
-  //       var path_list = new Array(data.jsonData.approved_files.length).fill("")
-  //
-  //       for (var i = 0; i < data.jsonData.approved_files.length; i++) {
-  //         path_list[i] = data.jsonData.approved_files[i].file_path
-  //       }
-  //
-  //       this.setState({
-  //           file_list: this.state.file_list.concat(data.jsonData.approved_files),
-  //           path_list: this.state.path_list.concat(path_list),
-  //           isLoading: false,
-  //           page: this.state.page+1
-  //       })
-  //   })
-  //
-  // }
-
-  // _displayFullImage = (item, index) => {
-  //   this.setState({
-  //     'showImageViewer': true,
-  //     'current_index': index
-  //   })
-  // }
-
   render() {
     return (
       <View style={styles.main_container}>
