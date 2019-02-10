@@ -13,6 +13,7 @@ import Dashboard from '../components/Dashboard.js'
 import Settings from '../components/Settings.js'
 import MyImageViewer from '../components/MyImageViewer.js'
 import GalleryStack from '../navigation/GalleryStack.js'
+import Upload from '../components/Upload.js'
 import TabBarContentComponent from '../navigation/TabBar.js'
 import DrawerContentComponent from '../navigation/MiscMenuDrawer.js'
 import { Ionicons } from '@expo/vector-icons'
@@ -56,7 +57,7 @@ const HomeNavigator = createBottomTabNavigator({
     screen: GalleryStack,
   },
   Upload: {
-    screen: () => null
+    screen: Upload,
   },
   MiscMenu: {
     screen: () => null
