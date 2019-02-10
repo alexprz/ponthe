@@ -22,11 +22,8 @@ class SignIn extends React.Component {
 
   // Give a description?
   _retrieveToken = async () => {
-    console.log("retrieve token");
     try {
-      const value = await AsyncStorage.getItem('@Ponthe:token');
-      console.log("value");
-      console.log(value);
+      const value = await AsyncStorage.getItem('@Ponthe:token')
       if (value !== null) {
         this.token = value
         const userInfo = new UserInfo()
@@ -39,13 +36,13 @@ class SignIn extends React.Component {
         this.props.navigation.navigate('Home')
       }
     } catch (error) {
-      await AsyncStorage.removeItem('@Ponthe:token');
+      await AsyncStorage.removeItem('@Ponthe:token')
     }
   };
 
   // Give a description?
   _storeToken = async (token) => {
-    await AsyncStorage.setItem('@Ponthe:token', token);
+    await AsyncStorage.setItem('@Ponthe:token', token)
   };
 
   _emailInputChanged(email) {

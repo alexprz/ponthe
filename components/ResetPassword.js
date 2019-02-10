@@ -31,7 +31,7 @@ class Reset extends React.Component {
   _reset() {
     resetPassword(this.email).then(res => {
       if (res.statusCode == 200) {
-        this._raiseRegisterAlert();
+        this._raiseResetAlert();
       }
       else {
         this.setState({msg:res.jsonData.msg})
@@ -44,7 +44,8 @@ class Reset extends React.Component {
   render() {
     return (
       <View style={styles.main_container}>
-        <Text> Reset </Text>
+        <Text> Pour réinitialiser ton mot de passe, </Text>
+        <Text> donne ton adresse ci-dessous </Text>
         <View style={styles.inputs_container}>
           <TextInput
             style={styles.input_text}
@@ -57,9 +58,9 @@ class Reset extends React.Component {
         <View style = {styles.button_container}>
           <TouchableOpacity
             style = {styles.main_button_shape}
-            onPress = {() => this.reset()}>
+            onPress = {() => this._reset()}>
             <Text style = {styles.main_button_text}>
-              Réinitialiser mot de passe
+              Réinitialiser
             </Text>
           </TouchableOpacity>
         </View>
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   },
   inputs_container: {
     marginTop: 20,
-    marginHorizontal: 60
+    //marginHorizontal: 60
   },
   input_text: {
     height: 40
