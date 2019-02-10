@@ -19,15 +19,16 @@ class Home extends React.Component {
           showImageViewer: false,
           current_index: 0,
           page: 0,
-          page_size: 10
+          page_size: 10,
+          refreshing: true
       }
-
-      this._loadAllPaths(100) //Nb max d'images affichées en scrollant
+      this.nb_max_path_to_load = 100
+      this._loadAllPaths() //Nb max d'images affichées en scrollant
       this._loadNextImages()
   }
 
-  _loadAllPaths(nb_max_path_to_load) {
-    getLatestImagesFromAPI(store.getState().userInfo.token, 1, nb_max_path_to_load).then(data => {
+  _loadAllPaths() {
+    getLatestImagesFromAPI(store.getState().userInfo.token, 1, this.nb_max_path_to_load).then(data => {
 
         var path_list = new Array(data.jsonData.latest_files.length).fill("")
         var dim_list = new Array(data.jsonData.latest_files.length).fill({})
@@ -48,6 +49,8 @@ class Home extends React.Component {
           partial_file_list: full_file_list.slice(0, this.state.page_size),
           full_path_list: path_list,
           full_dim_list: dim_list,
+          refreshing: false,
+          page: 0
         })
     })
   }
@@ -67,6 +70,14 @@ class Home extends React.Component {
         current_index: -1
       })
     }
+  }
+
+  _refresh() {
+    console.log("Refresh");
+    this.setState({
+      refreshing: true
+    })
+    this._loadAllPaths()
   }
 
   render() {
@@ -90,9 +101,9 @@ class Home extends React.Component {
             </TouchableOpacity>
           }
           onEndReachedThreshold = {0.3}
-          onEndReached = {() => {
-            this._loadNextImages()
-          }}
+          onEndReached = {() => {this._loadNextImages()}}
+          onRefresh = {() => {this._refresh()}}
+          refreshing = {this.state.refreshing}
         />
         <MyImageViewer
           show={this.state.showImageViewer}
