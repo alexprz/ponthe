@@ -1,14 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { createDrawerNavigator, DrawerItems, SafeAreaView,
-  DrawerActions, AsyncStorage} from 'react-navigation'
+  DrawerActions } from 'react-navigation'
 import { StyleSheet, ScrollView, View, Text,
-  TouchableHighlight } from 'react-native'
+  TouchableHighlight, AsyncStorage } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import { ponthe_color } from '../constants'
 
 // Give a description?
 _eraseToken = async () => {
+  console.log("erase token");
   await AsyncStorage.removeItem('@Ponthe:token');
 };
 

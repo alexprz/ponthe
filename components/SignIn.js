@@ -22,8 +22,11 @@ class SignIn extends React.Component {
 
   // Give a description?
   _retrieveToken = async () => {
+    console.log("retrieve token");
     try {
       const value = await AsyncStorage.getItem('@Ponthe:token');
+      console.log("value");
+      console.log(value);
       if (value !== null) {
         this.token = value
         const userInfo = new UserInfo()

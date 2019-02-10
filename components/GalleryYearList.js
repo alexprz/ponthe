@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, FlatList,
   ImageBackground, TouchableOpacity } from 'react-native'
 import GalleryEventGrid from '../components/GalleryEventGrid.js'
 import ImageItem from './ImageItem'
+import {ponthe_color} from '../constants'
 
 class GalleryYearList extends React.Component {
   render() {
@@ -17,9 +18,10 @@ class GalleryYearList extends React.Component {
             <TouchableOpacity
               onPress={() => this.props.displayGalleryEvent(item)}>
               <ImageItem
-                base64={item.image}
-                path={""}
+                path={item.file_path}
                 style={styles.image}
+                textStyle={styles.event_text}
+                title={item.name}
               />
             </TouchableOpacity>
           }
@@ -45,17 +47,17 @@ const styles = StyleSheet.create({
   },
   event_text: {
     fontWeight: 'bold',
-    //textTransform: 'uppercase',
-    fontSize: 15,
-    color: 'white'
+    fontSize: 25,
+    color: 'white',
+    textShadowColor: "black",
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 1
   },
   image: {
     flex: 1,
     margin: 5,
     width: 226,
     height: 226,
-    // margin: 5,
-    // backgroundColor: '#DDDDDD'
   }
 })
 
