@@ -15,6 +15,7 @@ class Home extends React.Component {
           file_list: [],
           full_path_list: [],
           full_dim_list: [],
+          full_file_list: [],
           isLoading: false,
           showImageViewer: false,
           current_index: 0,
@@ -31,16 +32,23 @@ class Home extends React.Component {
 
         var path_list = new Array(data.jsonData.latest_files.length).fill("")
         var dim_list = new Array(data.jsonData.latest_files.length).fill({})
+        var full_file_list = new Array(data.jsonData.latest_files.length)
 
         for (var i = 0; i < data.jsonData.latest_files.length; i++) {
+
+          full_file_list[i] = {
+            file_path: data.jsonData.latest_files[i].file_path,
+            file_dim: data.jsonData.latest_files[i].full_dimension
+          }
           path_list[i] = data.jsonData.latest_files[i].file_path
           dim_list[i] = data.jsonData.latest_files[i].full_dimension
         }
 
-        console.log(path_list)
-        console.log(dim_list);
+        // console.log(path_list)
+        // console.log(dim_list);
 
         this.setState({
+          full_file_list: full_file_list,
             full_path_list: path_list,
             full_dim_list: dim_list,
         })
@@ -75,29 +83,16 @@ class Home extends React.Component {
   }
 
   render() {
+    console.log(this.state.full_path_list[0]);
     return (
       <View style={styles.main_container}>
         <Text style={styles.text_style}>
           Dernières photos ajoutées
         </Text>
-        <Image source={{uri: 'https:avatars2.githubusercontent.com/u/7970947?v=3&s=460'}} style={{width: 100, height: 100}}/>
-        <Image source=
-          {{
-            uri: API_URL + 'get-full-image-raw',
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + store.getState().userInfo.token
-            },
-            body: JSON.stringify({
-              file_path: "ma-gallerie/qA9mDkFwpiHPaYTHBWPo.png"
-            })
-          }}
-          style={{width: 100, height: 100}}/>
+
 
           <FlatList
-            data={this.state.file_list}
+            data={this.state.full_file_list}
             keyExtractor={(item) => item.file_path.toString()}
             numColumns={numColumns}
             renderItem={({item, index}) =>
@@ -105,7 +100,7 @@ class Home extends React.Component {
                 style={styles.touchable_opacity}
                 onPress={() => this._displayFullImage(item, index)}>
                 <ImageItem
-                  base64={item.base64}
+                  // base64={item.base64}
                   path={item.file_path}
                   style = {styles.image}
                 />
