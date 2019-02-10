@@ -20,7 +20,8 @@ class GalleryEventGrid extends React.Component {
         showImageViewer: false,
         current_index: 0,
         page: 0,
-        page_size: 10
+        page_size: 10,
+        refreshing: true
     }
 
     this._loadAllPaths()
@@ -49,6 +50,8 @@ class GalleryEventGrid extends React.Component {
           partial_file_list: full_file_list.slice(0, this.state.page_size),
           full_path_list: path_list,
           full_dim_list: dim_list,
+          refreshing: false,
+          page: 0,
         })
     })
   }
@@ -70,6 +73,13 @@ class GalleryEventGrid extends React.Component {
     }
   }
 
+  _refresh() {
+    this.setState({
+      refreshing: true
+    })
+    this._loadAllPaths()
+  }
+
   render() {
     return (
       <View style={styles.main_container}>
@@ -88,9 +98,9 @@ class GalleryEventGrid extends React.Component {
             </TouchableOpacity>
           }
           onEndReachedThreshold = {0.3}
-          onEndReached = {() => {
-            this._loadNextImages()
-          }}
+          onEndReached = {() => {this._loadNextImages()}}
+          onRefresh = {() => {this._refresh()}}
+          refreshing = {this.state.refreshing}
         />
         <MyImageViewer
           show={this.state.showImageViewer}

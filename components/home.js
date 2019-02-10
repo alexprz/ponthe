@@ -73,7 +73,6 @@ class Home extends React.Component {
   }
 
   _refresh() {
-    console.log("Refresh");
     this.setState({
       refreshing: true
     })
