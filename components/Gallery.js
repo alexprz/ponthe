@@ -11,7 +11,7 @@ class Gallery extends React.Component {
       super(props)
       this.state = {
           year_list: [],
-          isLoading: false
+          refreshing: true
       }
       this._loadYears()
   }
@@ -21,7 +21,7 @@ class Gallery extends React.Component {
     getAllYearsFromAPI(store.getState().userInfo.token).then(data => {
         this.setState({
             year_list: data.jsonData.data,
-            isLoading: false
+            refreshing: false,
         })
         console.log(this.state.year_list[0].year)
     })
@@ -29,6 +29,13 @@ class Gallery extends React.Component {
 
   _displayGalleryEvent = (item) => {
     this.props.navigation.navigate('GalleryEvent', {gallery: item})
+  }
+
+  _refresh() {
+    this.setState({
+      refreshing: true
+    })
+    this._loadYears()
   }
 
   render() {
@@ -44,6 +51,8 @@ class Gallery extends React.Component {
               year_galleries={item.galleries}
               displayGalleryEvent={this._displayGalleryEvent}/>
             }
+          onRefresh = {() => {this._refresh()}}
+          refreshing = {this.state.refreshing}
         />
       </View>
     )
