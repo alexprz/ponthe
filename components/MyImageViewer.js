@@ -44,16 +44,17 @@ class MyImageViewer extends React.Component {
 
       this.state = {
         show: props.show,
-        path_list: props.path_list,
-        dim_list: props.dim_list,
+        // path_list: props.path_list,
+        // dim_list: props.dim_list,
         url_list: [],
         current_index: 0,
-        first_load: true,
+        // concat_list: true,
+        // loadNextImages: () => {}
         // page: 1
       }
 
-      console.log("first_load");
-      console.log(this.state.first_load);
+      // console.log("first_load");
+      // console.log(this.state.first_load);
   }
 
   // render() {
@@ -96,12 +97,12 @@ class MyImageViewer extends React.Component {
     }
 
     console.log("receive new props");
-    console.log(this.state.first_load);
-    console.log(nextProps.current_index)
-    console.log(nextProps.path_list);
-    console.log(nextProps.dim_list);
-    if(this.state.first_load){
-      var url_list = new Array(nextProps.path_list.length)
+    // console.log(this.state.first_load);
+    // console.log(nextProps.current_index)
+    // console.log(nextProps.path_list);
+    // console.log(nextProps.dim_list);
+    // if(this.state.concat_list){
+      var url_list = new Array(nextProps.full_path_list.length)
       // .fill({
       //   url: "",//"https://www.payote.fr/themes/pf_newfashionstore/img/loader.gif",
       //   loaded: false,
@@ -109,7 +110,7 @@ class MyImageViewer extends React.Component {
       // })
 
       for (var i = 0; i < url_list.length; i++) {
-        var temp = nextProps.path_list[i]
+        var temp = nextProps.full_path_list[i]
         console.log(temp);
         url_list[i] = {
           url: "",//"https://www.payote.fr/themes/pf_newfashionstore/img/loader.gif",
@@ -117,9 +118,9 @@ class MyImageViewer extends React.Component {
           props:
           {
             source: {
-              file_path: nextProps.path_list[i],
-              width: nextProps.dim_list[i].width,
-              height: nextProps.dim_list[i].height
+              file_path: nextProps.full_path_list[i],
+              width: nextProps.full_dim_list[i].width,
+              height: nextProps.full_dim_list[i].height
             },
             resizeMode: "contain",
             // style: {
@@ -128,11 +129,12 @@ class MyImageViewer extends React.Component {
             // }
           }
         }
+      }
 
         // .source.file_path = temp
-      }
-      console.log("url list");
-      console.log(url_list);
+      // }
+      // console.log("url list");
+      // console.log(url_list);
       // var url_list = new Array(nextProps.path_list.length).fill({
       //   url: "",
       //   props: {
@@ -157,27 +159,40 @@ class MyImageViewer extends React.Component {
       // console.log(url_list);
 
 
-      this.state.first_load = false
-    }
-    else {
-      console.log("loading from previous");
-      var url_list = this.state.url_list
-    }
+      // this.state.concat_list = false
+      // this.state.url_list = this.state.url_list.concat(url_list_to_concat)
+      // console.log(this.state.url_list);
+      // this.constructor(nextProps)
+      this.setState({
+        show: nextProps.show,
+        // concat_list: false,
+        url_list: url_list
+      });
+      // this.forceUpdate()
+    // }
+    // else {
+    //   console.log("loading from previous");
+    //   var url_list = this.state.url_list
+    // }
 
     // console.log(url_list);
-    this.state.url_list = url_list
-    this.state.path_list = nextProps.path_list,
-    this.state.current_index = nextProps.current_index
+    // this.state.url_list = this.state.url_list.concat(url_list_to_concat)
+    // this.state.path_list = nextProps.path_list
 
-    this.setState({
-      show: nextProps.show
-      // url_list: url_list,
-      // path_list: nextProps.path_list,
-      // current_index: nextProps.current_index
-    });
+    // if(nextProps.current_index != -1){//L'appel à cette fonction est générée par un changement de page, pas par un click
+    //   this.state.current_index = nextProps.current_index
+    // }
+    // this.state.loadNextImages = nextProps.loadNextImages
+
+    // this.setState({
+    //   show: nextProps.show
+    //   // url_list: url_list,
+    //   // path_list: nextProps.path_list,
+    //   // current_index: nextProps.current_index
+    // });
 
 
-    var clicked_index = nextProps.current_index
+    // var clicked_index = nextProps.current_index
     // this.triload(clicked_index, true)
     // Load clicked image
     // console.log("loading clicked");
@@ -247,7 +262,15 @@ class MyImageViewer extends React.Component {
 
   _onChange = (index) => {
     console.log("change");
+    console.log(index);
+    this.state.current_index = index
+    // console.log(this.state.url_list[index]);
+    if(index >= this.state.url_list.length-2){
+      console.log("reach_end");
+      this.state.concat_list = true
+      this.props.loadNextImages()
 
+    }
     // this.triload(index)
     // console.log(this.state.path_list);
 

@@ -13,16 +13,44 @@ class Home extends React.Component {
       super(props)
       this.state = {
           file_list: [],
-          dim_list: [],
-          path_list: [],
+          // dim_list: [],
+          full_path_list: [],
+          full_dim_list: [],
+          // path_list: [],
           isLoading: false,
           showImageViewer: false,
           current_index: 0,
           page: 0,
           page_size: 10
       }
+      // this._loadNextImages = this._loadNextImages.bind(this)
       // this._loadImages()
+      this._loadAllPaths(100)
       this._loadNextImages()
+  }
+
+  _loadAllPaths(nb_max_path_to_load) {
+
+
+
+    getLatestImagesFromAPI(store.getState().userInfo.token, 1, nb_max_path_to_load).then(data => {
+
+        var path_list = new Array(data.jsonData.latest_files.length).fill("")
+        var dim_list = new Array(data.jsonData.latest_files.length).fill({})
+
+        for (var i = 0; i < data.jsonData.latest_files.length; i++) {
+          path_list[i] = data.jsonData.latest_files[i].file_path
+          dim_list[i] = data.jsonData.latest_files[i].full_dimension
+        }
+
+        console.log(path_list)
+        console.log(dim_list);
+
+        this.setState({
+            full_path_list: path_list,
+            full_dim_list: dim_list,
+        })
+    })
   }
 
   // _loadImages () {
@@ -66,8 +94,10 @@ class Home extends React.Component {
 
         this.setState({
             file_list: this.state.file_list.concat(data.jsonData.latest_files),
-            path_list: this.state.path_list.concat(path_list),
-            dim_list: this.state.dim_list.concat(dim_list),
+            // path_list: this.state.path_list.concat(path_list),
+            // next_path_list: path_list,
+            // next_dim_list: dim_list,
+            // dim_list: this.state.dim_list.concat(dim_list),
             isLoading: false,
             page: this.state.page+1,
             current_index: -1
@@ -121,9 +151,10 @@ class Home extends React.Component {
           />
           <MyImageViewer
             show={this.state.showImageViewer}
-            path_list={this.state.path_list}
-            dim_list={this.state.dim_list}
+            full_path_list={this.state.full_path_list}
+            full_dim_list={this.state.full_dim_list}
             current_index={this.state.current_index}
+            // loadNextImages={this._loadNextImages}
           />
       </View>
     )
