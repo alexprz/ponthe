@@ -17,8 +17,8 @@ class GalleryYearList extends React.Component {
             <TouchableOpacity
               onPress={() => this.props.displayGalleryEvent(item)}>
               <ImageItem
-                base64={item.image}
-                path={""}
+                // base64={item.image}
+                path={item.file_path}
                 style={styles.image}
               />
             </TouchableOpacity>
