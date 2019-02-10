@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet, View, Image, TextInput, Text,
-  TouchableOpacity } from 'react-native'
+  TouchableOpacity, AsyncStorage } from 'react-native'
 import { getToken, getUserInfoByToken } from '../API/connexion'
+import store from '../store/configureStore'
 import UserInfo from '../lib/userClass'
 import { ponthe_color } from '../constants'
-import store from '../store/configureStore'
-import {AsyncStorage} from 'react-native';
 
 class SignIn extends React.Component {
 

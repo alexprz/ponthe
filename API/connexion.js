@@ -1,15 +1,5 @@
-import { API_URL } from '../constants'
-
-// Function that takes the response of any API function called
-// and gives back a dictionnary with the status code and the data
-function processAPIResponse(response) {
-  const statusCode = response.status;
-  const jsonData = response.json();
-  return Promise.all([statusCode, jsonData]).then(res => ({
-    statusCode: res[0],
-    jsonData: res[1]
-  }))
-}
+import { processAPIResponse } from './commons.js'
+import { API_URL } from '../constants.js'
 
 export function getToken(email, password) {
   return fetch(API_URL + "login", {
@@ -37,6 +27,7 @@ export function getUserInfoByToken(token) {
   .catch(error => console.error(error))
 }
 
+// Is this still necessary?
 // export function isLogged() {
 //   loadUser().then((responseJson) => {
 //     return responseJson.logged_in_as != undefined

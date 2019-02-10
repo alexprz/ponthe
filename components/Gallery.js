@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, FlatList } from 'react-native'
 import GalleryYearList from '../components/GalleryYearList.js'
-import years_data from '../helpers/GalleryYearsData.js'
+//import years_data from '../helpers/GalleryYearsData.js'
 import {getAllYearsFromAPI} from '../API/loadImages'
 import store from '../store/configureStore'
 

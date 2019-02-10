@@ -67,9 +67,10 @@ const HomeNavigator = createBottomTabNavigator({
   Equipment: {
     screen: Equipment
   },
-  Dashboard: {
-    screen: Dashboard
-  },
+  // For further developments with login as admin
+  // Dashboard: {
+  //   screen: Dashboard
+  // },
   Settings: {
     screen: Settings
   },
@@ -94,9 +95,10 @@ const MiscMenuDrawerNavigator = createDrawerNavigator({
   Equipment: {
     screen: Equipment
   },
-  Dashboard: {
-    screen: Dashboard
-  },
+  // For further developments with login as admin
+  // Dashboard: {
+  //   screen: Dashboard
+  // },
   Settings: {
     screen: Settings
   },

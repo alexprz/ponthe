@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { createDrawerNavigator, DrawerItems,
-   SafeAreaView, DrawerActions} from 'react-navigation'
+import { createDrawerNavigator, DrawerItems, SafeAreaView,
+  DrawerActions, AsyncStorage} from 'react-navigation'
 import { StyleSheet, ScrollView, View, Text,
   TouchableHighlight } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import { ponthe_color } from '../constants'
-import {AsyncStorage} from 'react-native';
 
 // Give a description?
 _eraseToken = async () => {
@@ -52,6 +51,8 @@ const DrawerContentComponent = (props) => (
             Matériel
           </Text>
         </TouchableHighlight>
+        {/*
+        For further developments with login as admin
         <TouchableHighlight
           onPress={() => props.navigation.navigate('Dashboard')}
           underlayColor = '#DDDDDD'
@@ -60,7 +61,7 @@ const DrawerContentComponent = (props) => (
             style = {styles.drawer_item_text}>
             Tableau de bord
           </Text>
-        </TouchableHighlight>
+        </TouchableHighlight> */}
         <TouchableHighlight
           onPress={() => props.navigation.navigate('Settings')}
           underlayColor = '#DDDDDD'
@@ -124,6 +125,8 @@ const styles = StyleSheet.create({
   }
 })
 
+// Drawer component needs to have in its props some of part of the state
+// stored in the store so that it can display the ids of the user
 const mapStateToProps = (state) => {
   return {
     userInfo: state.userInfo

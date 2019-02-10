@@ -43,10 +43,10 @@ class SignUp extends React.Component {
     this.promotionYear = promo
   }
 
-  _raiseRegistrationAlert() {
+  _raiseRegisterAlert() {
     Alert.alert(
       'Confirmation de la création du compte',
-      'Un mail de confirmation t\'as été envoyé sur ton adresse Zimbra',
+      'Un mail de confirmation t\'a été envoyé sur ton adresse Zimbra',
       [
         {text: 'OK', onPress: () => this.props.navigation.navigate('SignIn')},
       ],
@@ -69,7 +69,7 @@ class SignUp extends React.Component {
     postRegistration(this.firstName, this.lastName, this.email, this.password,
       this.passwordConfirmation, this.promotionYear).then(res => {
       if (res.statusCode == 200) {
-        this._raiseRegistrationAlert();
+        this._raiseRegisterAlert();
       }
       else {
         this.setState({msg:

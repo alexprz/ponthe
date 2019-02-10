@@ -1,16 +1,15 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
+import { getMembersFromAPI } from '../API/miscFunctions.js'
 
 class Members extends React.Component {
-
   render() {
     return (
       <View style={styles.main_container}>
-        <Text>Membres</Text>
+        <Text> Membres </Text>
       </View>
     )
   }
-  
 }
 
 const styles = StyleSheet.create({
