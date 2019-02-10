@@ -13,20 +13,21 @@ class ImageItem extends React.Component {
 
   render() {
     const encodedData = this.props.base64
-    console.log("");
-    console.log(this.props.path)
+    // console.log("");
+    // console.log(this.props.path)
     // file_info["base64"].splice(0, 2)
     return (
         <Image
           style={this.props.style}
           // source={{uri: encodedData}}//'https://facebook.github.io/react/logo-og.png'}}//`data:image/jpg;base64,${encodedData}`}}
           source={{
-              uri: API_URL + 'get-thumb-image-raw-url/' + this.props.path.replace('/',''),
+              uri: API_URL + 'get-thumb-image-raw-url/' + this.props.path.replace('/',''), //Url doit etre different pour 2 photos differentes (meme par methode post) pour empecher de mettre en cache
               method: 'POST',
               headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + store.getState().userInfo.token
+                'Authorization': 'Bearer ' + store.getState().userInfo.token,
+                // 'Cache-Control': 'no-cache'
               },
               body: JSON.stringify({
                 file_path: this.props.path

@@ -16,12 +16,14 @@ class Home extends React.Component {
           full_path_list: [],
           full_dim_list: [],
           full_file_list: [],
+          partial_file_list: [],
           isLoading: false,
           showImageViewer: false,
           current_index: 0,
           page: 0,
           page_size: 10
       }
+
 
       this._loadAllPaths(100)
       this._loadNextImages()
@@ -49,8 +51,9 @@ class Home extends React.Component {
 
         this.setState({
           full_file_list: full_file_list,
-            full_path_list: path_list,
-            full_dim_list: dim_list,
+          partial_file_list: full_file_list.slice(0, this.state.page_size),
+          full_path_list: path_list,
+          full_dim_list: dim_list,
         })
     })
   }
@@ -63,27 +66,40 @@ class Home extends React.Component {
   }
 
   _loadNextImages () {
-    getLatestImagesFromAPI(store.getState().userInfo.token, this.state.page+1, this.state.page_size).then(data => {
-
-        var path_list = new Array(data.jsonData.latest_files.length).fill("")
-        var dim_list = new Array(data.jsonData.latest_files.length).fill({})
-
-        for (var i = 0; i < data.jsonData.latest_files.length; i++) {
-          path_list[i] = data.jsonData.latest_files[i].file_path
-          dim_list[i] = data.jsonData.latest_files[i].full_dimension
-        }
-
-        this.setState({
-            file_list: this.state.file_list.concat(data.jsonData.latest_files),
-            isLoading: false,
-            page: this.state.page+1,
-            current_index: -1
-        })
-    })
+    console.log("current page");
+    console.log(this.state.page);
+    if((this.state.page+1)*this.state.page_size < this.state.full_file_list.length){
+      this.setState({
+        partial_file_list: this.state.partial_file_list.concat(this.state.full_file_list.slice((this.state.page+1)*this.state.page_size, (this.state.page+2)*this.state.page_size)),
+        page: this.state.page+1,
+        current_index: -1
+      })
+    }
+    else{
+      console.log("end of full_list");
+      // console.log(this.state.full_file_list.length)
+    }
+    // getLatestImagesFromAPI(store.getState().userInfo.token, this.state.page+1, this.state.page_size).then(data => {
+    //
+    //     var path_list = new Array(data.jsonData.latest_files.length).fill("")
+    //     var dim_list = new Array(data.jsonData.latest_files.length).fill({})
+    //
+    //     for (var i = 0; i < data.jsonData.latest_files.length; i++) {
+    //       path_list[i] = data.jsonData.latest_files[i].file_path
+    //       dim_list[i] = data.jsonData.latest_files[i].full_dimension
+    //     }
+    //
+    //     this.setState({
+    //         file_list: this.state.file_list.concat(data.jsonData.latest_files),
+    //         isLoading: false,
+    //         page: this.state.page+1,
+    //         current_index: -1
+    //     })
+    // })
   }
 
   render() {
-    console.log(this.state.full_path_list[0]);
+    // console.log(this.state.full_path_list[0]);
     return (
       <View style={styles.main_container}>
         <Text style={styles.text_style}>
@@ -92,7 +108,7 @@ class Home extends React.Component {
 
 
           <FlatList
-            data={this.state.full_file_list}
+            data={this.state.partial_file_list}
             keyExtractor={(item) => item.file_path.toString()}
             numColumns={numColumns}
             renderItem={({item, index}) =>
