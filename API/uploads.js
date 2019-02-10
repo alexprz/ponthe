@@ -16,7 +16,7 @@ import { API_URL } from '../constants.js'
 // }
 
 export function uploadImageAsync(uri, token) {
-  let apiUrl = API_URL + "file_upload/autre";
+  let apiUrl = API_URL + "file-upload/autre";
   let uriParts = uri.split('.');
   let fileType = uriParts[uriParts.length - 1];
 

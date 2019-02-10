@@ -35,15 +35,15 @@ class Upload extends React.Component {
 
         <Text
           style={styles.exampleText}>
-          Example: Upload ImagePicker result
+          Téléverser un fichier
         </Text>
 
         <Button
           onPress={this._pickImage}
-          title="Pick an image from camera roll"
+          title="Ouvrir Photos"
         />
 
-        <Button onPress={this._takePhoto} title="Take a photo" />
+        <Button onPress={this._takePhoto} title="Ouvrir la Pélicule" />
 
         {this._maybeRenderImage()}
         {this._maybeRenderUploadingOverlay()}
