@@ -16,7 +16,7 @@ export function getToken(email, password) {
 }
 
 export function getUserInfoByToken(token) {
-  return fetch(API_URL + "get_user_by_jwt", {
+  return fetch(API_URL + "get-user-by-jwt", {
     method: 'GET',
     headers: {
       Accept: 'application/json',
