@@ -10,56 +10,47 @@ import MyImageViewer from './MyImageViewer'
 class GalleryEventGrid extends React.Component {
 
   constructor(props) {
-      super(props)
-      this.state = {
-          file_list: [],
-          path_list: [],
-          isLoading: false,
-          showImageViewer: false,
-          current_index: 0,
-          page: 0,
-          page_size: 10
-      }
-      // this._loadImages()
-      this._loadNextImages()
+    super(props)
+    this.state = {
+        full_path_list: [],
+        full_dim_list: [],
+        full_file_list: [],
+        partial_file_list: [],
+        isLoading: false,
+        showImageViewer: false,
+        current_index: 0,
+        page: 0,
+        page_size: 10
+    }
+
+    this._loadAllPaths()
+    this._loadNextImages()
   }
 
-  // _loadImages () {
-  //   this.setState({isLoading: true})
-  //   getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token).then(data => {
-  //
-  //       var path_list = new Array(data.jsonData.approved_files.length).fill("")
-  //
-  //       for (var i = 0; i < data.jsonData.approved_files.length; i++) {
-  //         path_list[i] = data.jsonData.approved_files[i].file_path
-  //       }
-  //
-  //       this.setState({
-  //           file_list: data.jsonData.approved_files,
-  //           path_list: path_list,
-  //           isLoading: false
-  //       })
-  //   })
-  // }
-
-  _loadNextImages () {
-    // this.setState({isLoading: true})
-    getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token, this.state.page+1, this.state.page_size).then(data => {
+  _loadAllPaths() {
+    getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token).then(data => {
 
         var path_list = new Array(data.jsonData.approved_files.length).fill("")
+        var dim_list = new Array(data.jsonData.approved_files.length).fill({})
+        var full_file_list = new Array(data.jsonData.approved_files.length)
 
         for (var i = 0; i < data.jsonData.approved_files.length; i++) {
+
+          full_file_list[i] = {
+            file_path: data.jsonData.approved_files[i].file_path,
+            file_dim: data.jsonData.approved_files[i].full_dimension
+          }
           path_list[i] = data.jsonData.approved_files[i].file_path
+          dim_list[i] = data.jsonData.approved_files[i].full_dimension
         }
 
         this.setState({
-            file_list: this.state.file_list.concat(data.jsonData.approved_files),
-            path_list: this.state.path_list.concat(path_list),
-            isLoading: false,
-            page: this.state.page+1
+          full_file_list: full_file_list,
+          partial_file_list: full_file_list.slice(0, this.state.page_size),
+          full_path_list: path_list,
+          full_dim_list: dim_list,
         })
     })
-
   }
 
   _displayFullImage = (item, index) => {
@@ -69,11 +60,48 @@ class GalleryEventGrid extends React.Component {
     })
   }
 
+  _loadNextImages () {
+    if((this.state.page+1)*this.state.page_size < this.state.full_file_list.length){
+      this.setState({
+        partial_file_list: this.state.partial_file_list.concat(this.state.full_file_list.slice((this.state.page+1)*this.state.page_size, (this.state.page+2)*this.state.page_size)),
+        page: this.state.page+1,
+        current_index: -1
+      })
+    }
+  }
+
+  // _loadNextImages () {
+  //   // this.setState({isLoading: true})
+  //   getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token, this.state.page+1, this.state.page_size).then(data => {
+  //
+  //       var path_list = new Array(data.jsonData.approved_files.length).fill("")
+  //
+  //       for (var i = 0; i < data.jsonData.approved_files.length; i++) {
+  //         path_list[i] = data.jsonData.approved_files[i].file_path
+  //       }
+  //
+  //       this.setState({
+  //           file_list: this.state.file_list.concat(data.jsonData.approved_files),
+  //           path_list: this.state.path_list.concat(path_list),
+  //           isLoading: false,
+  //           page: this.state.page+1
+  //       })
+  //   })
+  //
+  // }
+
+  // _displayFullImage = (item, index) => {
+  //   this.setState({
+  //     'showImageViewer': true,
+  //     'current_index': index
+  //   })
+  // }
+
   render() {
     return (
       <View style={styles.main_container}>
         <FlatList
-          data={this.state.file_list}
+          data={this.state.partial_file_list}
           keyExtractor={(item) => item.file_path.toString()}
           numColumns={numColumns}
           renderItem={({item, index}) =>
@@ -81,21 +109,20 @@ class GalleryEventGrid extends React.Component {
               style={styles.touchable_opacity}
               onPress={() => this._displayFullImage(item, index)}>
               <ImageItem
-                base64={item.base64}
                 path={item.file_path}
-                style={styles.image}
+                style = {styles.image}
               />
             </TouchableOpacity>
           }
-          onEndReachedThreshold = {0.2}
+          onEndReachedThreshold = {0.3}
           onEndReached = {() => {
-            console.log("onEndReached")
             this._loadNextImages()
           }}
         />
         <MyImageViewer
           show={this.state.showImageViewer}
-          path_list={this.state.path_list}
+          full_path_list={this.state.full_path_list}
+          full_dim_list={this.state.full_dim_list}
           current_index={this.state.current_index}
         />
       </View>

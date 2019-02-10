@@ -12,7 +12,6 @@ class Home extends React.Component {
   constructor(props) {
       super(props)
       this.state = {
-          file_list: [],
           full_path_list: [],
           full_dim_list: [],
           full_file_list: [],
