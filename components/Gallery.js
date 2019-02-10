@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, FlatList } from 'react-native'
+import { StyleSheet, View, FlatList, Text } from 'react-native'
 import GalleryYearList from '../components/GalleryYearList.js'
 //import years_data from '../helpers/GalleryYearsData.js'
 import {getAllYearsFromAPI} from '../API/loadImages'
@@ -41,8 +41,10 @@ class Gallery extends React.Component {
   render() {
     return (
       <View style={styles.main_container}>
+        <Text style={styles.text_style}>
+          Galleries
+        </Text>
         <FlatList
-
           data={this.state.year_list}
           keyExtractor={(item) => item.year.toString()}
           renderItem={({item}) =>
@@ -62,13 +64,18 @@ class Gallery extends React.Component {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
-    // width: "100%",
-    // height: "100%",
     paddingBottom: 10,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white'
-  }
+  },
+  text_style: {
+    marginTop: 35,
+    margin: 10,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 25
+  },
 })
 
 export default Gallery
