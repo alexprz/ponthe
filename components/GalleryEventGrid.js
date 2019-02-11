@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
   touchable_opacity: {
     flex: 1,
     margin: 2,
-
   },
   image_text: {
     fontWeight: 'bold',
