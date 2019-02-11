@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
   },
   drawer_container: {
     flex: 1,
+    marginTop: 50
   },
   drawer_item_button: {
     height: 50,
