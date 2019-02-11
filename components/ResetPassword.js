@@ -72,13 +72,12 @@ class Reset extends React.Component {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 60,
     backgroundColor: 'white'
   },
   inputs_container: {
-    marginTop: 20,
-    //marginHorizontal: 60
+    marginTop: 20
   },
   input_text: {
     height: 40
