@@ -9,6 +9,9 @@ class Reset extends React.Component {
   constructor(props) {
     super(props)
     this.email = ''
+    this.state = {
+      msg: ''
+    }
   }
 
   _emailInputChanged(email) {
@@ -19,10 +22,8 @@ class Reset extends React.Component {
     Alert.alert(
       'Réinitialisation du mot de passe',
       'Un mail de réinitialisation de mot de passe t\'a été envoyé sur ton adresse Zimbra',
-      [
-        {text: 'OK', onPress: () => this.props.navigation.navigate('SignIn')},
-      ],
-        { cancelable: false }
+      [{text: 'OK', onPress: () => this.props.navigation.navigate('SignIn')}],
+      {cancelable: false}
     )
   }
 
@@ -31,12 +32,11 @@ class Reset extends React.Component {
   _reset() {
     resetPassword(this.email).then(res => {
       if (res.statusCode == 200) {
-        this._raiseResetAlert();
+        this._raiseResetAlert()
       }
       else {
-        this.setState({msg:res.jsonData.msg})
-        //this.setState({msg:
-        //  this._translateErrorMessage(res.statusCode, res.jsonData.msg)})
+        this.setState({ msg:res.jsonData.msg })
+        //console.log(res.jsonData.msg)
       }
     })
   }

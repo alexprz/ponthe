@@ -21,7 +21,7 @@ export function getUserInfoByToken(token) {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+token }
+      'Authorization': 'Bearer ' + token }
   })
   .then(processAPIResponse)
   .catch(error => console.error(error))
@@ -60,7 +60,24 @@ export function resetPassword(email) {
       Accept: 'application/json',
       'Content-Type': 'application/json' },
     body: JSON.stringify({
-      email: email})
+      email: email
+    })
+  })
+  .then(processAPIResponse)
+  .catch(error => console.error(error))
+}
+
+export function changePassword(newPassword, passwordConfirmation, token) {
+  return fetch(API_URL + "reset/" + token, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token },
+    body: JSON.stringify({
+      new_password: newPassword,
+      confirmation_password: passwordConfirmation
+      })
   })
   .then(processAPIResponse)
   .catch(error => console.error(error))
