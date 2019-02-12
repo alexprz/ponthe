@@ -40,7 +40,7 @@ export function getImagesFromAPI(gallery_slug, token) {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token  },
+      'Authorization': 'Bearer ' + token },
     body: JSON.stringify({
       without_base64: true
     })
