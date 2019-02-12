@@ -75,7 +75,8 @@ class GalleryEventGrid extends React.Component {
 
   _refresh() {
     this.setState({
-      refreshing: true
+      refreshing: true,
+      current_index: -1
     })
     this._loadAllPaths()
   }

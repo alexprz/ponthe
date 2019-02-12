@@ -50,7 +50,8 @@ class Home extends React.Component {
           full_path_list: path_list,
           full_dim_list: dim_list,
           refreshing: false,
-          page: 0
+          page: 0,
+          current_index: -1,
         })
     })
   }
@@ -74,7 +75,8 @@ class Home extends React.Component {
 
   _refresh() {
     this.setState({
-      refreshing: true
+      refreshing: true,
+      current_index: -1
     })
     this._loadAllPaths()
   }
