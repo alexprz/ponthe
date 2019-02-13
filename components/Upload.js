@@ -147,7 +147,7 @@ class Upload extends React.Component {
       });
 
       if (!pickerResult.cancelled) {
-        uploadResponse = await uploadImageAsync(pickerResult.uri, store.getState().userInfo.token);
+        uploadResponse = await uploadImageAsync(pickerResult.uri, store.getState().userInfo.token, this.props.navigation.state.params.gallery.slug);
         uploadResult = uploadResponse["jsonData"]["msg"];
         Alert.alert(
           'Merci pour ta contribution',

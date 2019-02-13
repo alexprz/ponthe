@@ -6,7 +6,9 @@ import GalleryUploadList from '../components/GalleryUploadList.js'
 import {getAllYearsFromAPI} from '../API/loadImages'
 import store from '../store/configureStore'
 
-class Gallery extends React.Component {
+import { List, ListItem } from 'react-native-elements'
+
+class GalleryListForUpload extends React.Component {
 
   constructor(props) {
       super(props)
@@ -32,6 +34,9 @@ class Gallery extends React.Component {
     this.props.navigation.navigate('GalleryEvent', {gallery: item})
   }
 
+  _displayUploadManager = (item) => {
+    this.props.navigation.navigate('UploadGallery', {gallery: item})
+  }
 
   _refresh() {
     this.setState({
@@ -44,16 +49,16 @@ class Gallery extends React.Component {
     return (
       <View style={styles.main_container}>
         <Text style={styles.text_style}>
-          Galleries
+          Choisissez la Galerie
         </Text>
         <FlatList
           data={this.state.year_list}
           keyExtractor={(item) => item.year.toString()}
           renderItem={({item}) =>
-            <GalleryYearList
+            <GalleryUploadList
               year={item.year}
               year_galleries={item.galleries}
-              displayGalleryEvent={this._displayGalleryEvent}/>
+              displayUploadManager={this._displayUploadManager}/>
             }
           onRefresh = {() => {this._refresh()}}
           refreshing = {this.state.refreshing}
@@ -61,6 +66,19 @@ class Gallery extends React.Component {
       </View>
     )
   }
+  // render() {
+  //   return (
+  //     <View style={styles.main_container}>
+  //       <TextInput style={styles.textinput} placeholder='Titre du film'/>
+  //       <Button title='Rechercher' onPress={() => {}}/>
+  //       {/* Ici j'ai simplement repris l'exemple sur la documentation de la FlatList */}
+  //       <FlatList
+  //         data={[{key: 'a'}, {key: 'b'}]}
+  //         renderItem={({item}) => <Text>{item.key}</Text>}
+  //       />
+  //     </View>
+  //   )
+  // }
 }
 
 const styles = StyleSheet.create({
@@ -81,4 +99,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default Gallery
+export default GalleryListForUpload
