@@ -48,7 +48,10 @@ class Upload extends React.Component {
     return (
       <View style={styles.main_container}>
         <Text style={styles.text_style}>
-          Choisissez la Galerie
+            Upload
+        </Text>
+        <Text style={styles.subtitle_style}>
+            Choisis une Galerie
         </Text>
         <FlatList
           data={this.state.year_list}
@@ -71,7 +74,9 @@ const styles = StyleSheet.create({
   main_container: {
     paddingBottom: 10,
     justifyContent: 'center',
-    backgroundColor: 'white',
+    marginTop: "5%",
+    // backgroundColor: 'transparent',
+    height: '100%',
     width: '100%'
   },
   text_style: {
@@ -81,6 +86,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 25
   },
+  subtitle_style: {
+      textAlign: 'center',
+      // marginLeft: "3%",
+      fontSize: 19
+  }
 })
 
 

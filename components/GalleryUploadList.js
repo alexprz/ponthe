@@ -36,6 +36,7 @@ class GalleryUploadList extends React.Component {
 const styles = StyleSheet.create({
   main_container: {
     marginTop: 25,
+    backgroundColor: 'white'
   },
   year_text: {
     margin: 10,
