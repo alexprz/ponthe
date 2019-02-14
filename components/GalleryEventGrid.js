@@ -6,6 +6,7 @@ import ImageItem from './ImageItem'
 import {getImagesFromAPI} from '../API/loadImages'
 import store from '../store/configureStore'
 import MyImageViewer from './MyImageViewer'
+import MyFlatList from './MyFlatList'
 
 class GalleryEventGrid extends React.Component {
 
@@ -16,7 +17,6 @@ class GalleryEventGrid extends React.Component {
         full_dim_list: [],
         full_file_list: [],
         partial_file_list: [],
-        isLoading: false,
         showImageViewer: false,
         current_index: 0,
         page: 0,
@@ -83,33 +83,36 @@ class GalleryEventGrid extends React.Component {
 
   render() {
     return (
-      <View style={styles.main_container}>
-        <FlatList
-          data={this.state.partial_file_list}
-          keyExtractor={(item) => item.file_path.toString()}
-          numColumns={numColumns}
-          renderItem={({item, index}) =>
-            <TouchableOpacity
-              style={styles.touchable_opacity}
-              onPress={() => this._displayFullImage(item, index)}>
-              <ImageItem
-                path={item.file_path}
-                style = {styles.image}
-              />
-            </TouchableOpacity>
-          }
-          onEndReachedThreshold = {0.3}
-          onEndReached = {() => {this._loadNextImages()}}
-          onRefresh = {() => {this._refresh()}}
-          refreshing = {this.state.refreshing}
-        />
-        <MyImageViewer
-          show={this.state.showImageViewer}
-          full_path_list={this.state.full_path_list}
-          full_dim_list={this.state.full_dim_list}
-          current_index={this.state.current_index}
-        />
-      </View>
+      // <View style={styles.main_container}>
+      //   <FlatList
+      //     data={this.state.partial_file_list}
+      //     keyExtractor={(item) => item.file_path.toString()}
+      //     numColumns={numColumns}
+      //     renderItem={({item, index}) =>
+      //       <TouchableOpacity
+      //         style={styles.touchable_opacity}
+      //         onPress={() => this._displayFullImage(item, index)}>
+      //         <ImageItem
+      //           path={item.file_path}
+      //           style = {styles.image}
+      //         />
+      //       </TouchableOpacity>
+      //     }
+      //     onEndReachedThreshold = {0.3}
+      //     onEndReached = {() => {this._loadNextImages()}}
+      //     onRefresh = {() => {this._refresh()}}
+      //     refreshing = {this.state.refreshing}
+      //   />
+      //   <MyImageViewer
+      //     show={this.state.showImageViewer}
+      //     full_path_list={this.state.full_path_list}
+      //     full_dim_list={this.state.full_dim_list}
+      //     current_index={this.state.current_index}
+      //   />
+      // </View>
+      <MyFlatList
+        getImages = {() => {return getImagesFromAPI(this.props.navigation.state.params.gallery.slug, store.getState().userInfo.token)}}
+      />
     )
   }
 }

@@ -13,6 +13,8 @@ import {
   removeOrientationListener as rol
 } from 'react-native-responsive-screen'
 
+import onLayout from 'react-native-on-layout'
+
 class MyImageViewer extends React.Component {
 
   constructor(props) {
@@ -26,18 +28,28 @@ class MyImageViewer extends React.Component {
   }
 
   componentDidMount() {
-    loc(this);
+    // if(this.state.show){
+    //   Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_RIGHT);
+    // }
   }
 
-  componentWillUnMount() {
-    rol();
+  componentWillUnmount() {
+    // Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_RIGHT);
   }
 
   _onCancel = () => {
+    // Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_RIGHT)
     this.setState({show: false})
   }
 
   componentWillReceiveProps(nextProps) {
+
+    // if(this.state.show){
+    //   Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_RIGHT);
+    // }
+    // else{
+    //   Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_RIGHT)
+    // }
 
     if(nextProps.current_index == -1)//L'appel à cette fonction est générée par un changement de page, pas par un click
     {
@@ -135,8 +147,10 @@ class MyImageViewer extends React.Component {
                       resizeMode= "contain"
                       style = {[props.style, styles.image]}
                       />
+
                 }
                 />
+
                 </View>
           </Modal>
       )

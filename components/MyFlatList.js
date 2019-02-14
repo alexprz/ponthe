@@ -5,10 +5,9 @@ import {getLatestImagesFromAPI, getFullImageFromAPI} from '../API/loadImages'
 import ImageItem from './ImageItem'
 import store from '../store/configureStore'
 import MyImageViewer from './MyImageViewer'
-import MyFlatList from './MyFlatList'
 import {API_URL} from '../constants'
 
-class Home extends React.Component {
+class MyFlatList extends React.Component {
   constructor(props) {
       super(props)
       this.state = {
@@ -22,13 +21,26 @@ class Home extends React.Component {
           page_size: 10,
           refreshing: true
       }
-      this.nb_max_path_to_load = 100
-      this._loadAllPaths() //Nb max d'images affichées en scrollant
-      this._loadNextImages()
+      // this.nb_max_path_to_load = 100
+      // this._loadAllPaths() //Nb max d'images affichées en scrollant
+      // this._loadNextImages()
+      // this.nb_max_path_to_load = props.nb_max_path_to_load
+      this.getImages = props.getImages
+      // this._loadAllPaths() //Nb max d'images affichées en scrollant
+      // this._loadNextImages()
+  }
+
+  componentWillReceiveProps(nextProps){
+    console.log(nextProps.getImages);
+    this.getImages = nextProps.getImages
+    this._loadAllPaths() //Nb max d'images affichées en scrollant
+    this._loadNextImages()
+
   }
 
   _loadAllPaths() {
-    getLatestImagesFromAPI(store.getState().userInfo.token, 1, this.nb_max_path_to_load).then(data => {
+    // console.log(this.getImages);
+    this.getImages().then(data => {
 
         var path_list = new Array(data.jsonData.latest_files.length).fill("")
         var dim_list = new Array(data.jsonData.latest_files.length).fill({})
@@ -83,10 +95,36 @@ class Home extends React.Component {
 
   render() {
     return (
-      <MyFlatList
-        title = {"Dernières photos ajoutées"}
-        getImages = {() => {return getLatestImagesFromAPI(store.getState().userInfo.token, 1, 100)}}
-      />
+      <View style={styles.main_container}>
+        <Text style={styles.text_style}>
+          {this.props.title}
+        </Text>
+        <FlatList
+          data={this.state.partial_file_list}
+          keyExtractor={(item) => item.file_path.toString()}
+          numColumns={numColumns}
+          renderItem={({item, index}) =>
+            <TouchableOpacity
+              style={styles.touchable_opacity}
+              onPress={() => this._displayFullImage(item, index)}>
+              <ImageItem
+                path={item.file_path}
+                style = {styles.image}
+              />
+            </TouchableOpacity>
+          }
+          onEndReachedThreshold = {0.3}
+          onEndReached = {() => {this._loadNextImages()}}
+          onRefresh = {() => {this._refresh()}}
+          refreshing = {this.state.refreshing}
+        />
+        <MyImageViewer
+          show={this.state.showImageViewer}
+          full_path_list={this.state.full_path_list}
+          full_dim_list={this.state.full_dim_list}
+          current_index={this.state.current_index}
+        />
+      </View>
     )
   }
 }
@@ -96,7 +134,8 @@ const numColumns = 2
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
-    marginTop: 25,
+    // marginTop: 25,
+    backgroundColor: 'white'
   },
   touchable_opacity: {
     flex: 1,
@@ -120,4 +159,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(MyFlatList)

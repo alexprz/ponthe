@@ -3,6 +3,7 @@
 export function processAPIResponse(response) {
   const statusCode = response.status;
   const jsonData = response.json();
+  // console.log(response);
   return Promise.all([statusCode, jsonData]).then(res => ({
     statusCode: res[0],
     jsonData: res[1]
