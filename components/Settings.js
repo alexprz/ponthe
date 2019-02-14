@@ -31,8 +31,10 @@ class Settings extends React.Component {
     Alert.alert(
       'Mot de passe changé',
       'Ton mot de passe a été changé',
-      [{text: 'OK', onPress: () => null}],
-      {cancelable: false}
+      [
+        {text: 'OK', onPress: () => this.props.navigation.navigate('Home')},
+      ],
+        { cancelable: false }
     )
   }
 
@@ -43,7 +45,6 @@ class Settings extends React.Component {
         this.setState({msg:"Les deux mots de passe ne correspondent pas"})
     }
     else {
-        console.log(this.currentPassword)
         changePassword(this.currentPassword, this.newPassword,
           store.getState().userInfo.token).then(res => {
           if (res.statusCode == 200) {
