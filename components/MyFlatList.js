@@ -139,10 +139,4 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = (state) => {
-  return {
-    userInfo: state.userInfo
-  }
-}
-
-export default connect(mapStateToProps)(MyFlatList)
+export default MyFlatList
