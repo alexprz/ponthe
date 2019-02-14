@@ -21,13 +21,14 @@ class MyFlatList extends React.Component {
           page_size: 10,
           refreshing: true
       }
+      // console.log("construct");
       // this.nb_max_path_to_load = 100
       // this._loadAllPaths() //Nb max d'images affichées en scrollant
       // this._loadNextImages()
       // this.nb_max_path_to_load = props.nb_max_path_to_load
       this.getImages = props.getImages
-      // this._loadAllPaths() //Nb max d'images affichées en scrollant
-      // this._loadNextImages()
+      this._loadAllPaths() //Nb max d'images affichées en scrollant
+      this._loadNextImages()
   }
 
   componentWillReceiveProps(nextProps){
@@ -40,20 +41,22 @@ class MyFlatList extends React.Component {
 
   _loadAllPaths() {
     // console.log(this.getImages);
+    console.log("prebite");
     this.getImages().then(data => {
 
-        var path_list = new Array(data.jsonData.latest_files.length).fill("")
-        var dim_list = new Array(data.jsonData.latest_files.length).fill({})
-        var full_file_list = new Array(data.jsonData.latest_files.length)
+        console.log("bite");
+        var path_list = new Array(data.jsonData.files.length).fill("")
+        var dim_list = new Array(data.jsonData.files.length).fill({})
+        var full_file_list = new Array(data.jsonData.files.length)
 
-        for (var i = 0; i < data.jsonData.latest_files.length; i++) {
+        for (var i = 0; i < data.jsonData.files.length; i++) {
 
           full_file_list[i] = {
-            file_path: data.jsonData.latest_files[i].file_path,
-            file_dim: data.jsonData.latest_files[i].full_dimension
+            file_path: data.jsonData.files[i].file_path,
+            file_dim: data.jsonData.files[i].full_dimension
           }
-          path_list[i] = data.jsonData.latest_files[i].file_path
-          dim_list[i] = data.jsonData.latest_files[i].full_dimension
+          path_list[i] = data.jsonData.files[i].file_path
+          dim_list[i] = data.jsonData.files[i].full_dimension
         }
 
         this.setState({
@@ -95,10 +98,12 @@ class MyFlatList extends React.Component {
 
   render() {
     return (
-      <View style={styles.main_container}>
-        <Text style={styles.text_style}>
-          {this.props.title}
-        </Text>
+      <View style={this.props.container_style}>
+        {this.props.title != undefined &&
+          <Text style={styles.text_style}>
+            {this.props.title}
+          </Text>
+        }
         <FlatList
           data={this.state.partial_file_list}
           keyExtractor={(item) => item.file_path.toString()}
