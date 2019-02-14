@@ -1,22 +1,22 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { createStackNavigator } from 'react-navigation'
-import Upload from '../components/Upload.js'
+import UploadEvent from '../components/UploadEvent.js'
 import Gallery from '../components/Gallery.js'
 
-import GalleryListForUpload from '../components/GalleryListForUpload.js'
+import Upload from '../components/Upload.js'
 import GalleryEventGrid from '../components/GalleryEventGrid.js'
 import { ponthe_color } from '../constants'
 
 const UploadStack = createStackNavigator({
-  GalleryList: {
-    screen: GalleryListForUpload,
+  GalleryUploadList: {
+    screen: Upload,
     navigationOptions: {
       header: null
     }
   },
   UploadGallery: {
-    screen: Upload,
+    screen: UploadEvent,
     navigationOptions: ({navigation}) => ({
       headerTitle: navigation.state.params.gallery.name,
       headerTitleStyle: styles.event_title,

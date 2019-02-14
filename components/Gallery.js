@@ -7,7 +7,6 @@ import {getAllYearsFromAPI} from '../API/loadImages'
 import store from '../store/configureStore'
 
 class Gallery extends React.Component {
-
   constructor(props) {
       super(props)
       this.state = {
@@ -18,7 +17,6 @@ class Gallery extends React.Component {
   }
 
   _loadYears () {
-    this.setState({isLoading: true});
     getAllYearsFromAPI(store.getState().userInfo.token).then(data => {
         this.setState({
             year_list: data.jsonData.data,

@@ -12,7 +12,7 @@ class GalleryYearList extends React.Component {
         <Text style={styles.year_text}> {this.props.year} </Text>
         <FlatList
           data={this.props.year_galleries}
-          keyExtractor={(item) => item.toString()}
+          keyExtractor={(item) => item.slug.toString()}
           horizontal={true}
           renderItem={({item}) =>
             <TouchableOpacity
