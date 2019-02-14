@@ -6,7 +6,14 @@ import { Modal } from 'react-native';
 import {getFullImageFromAPI} from '../API/loadImages'
 import store from '../store/configureStore'
 import {BASE_URL, API_URL} from '../constants'
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+  listenOrientationChange as loc,
+  removeOrientationListener as rol
+} from 'react-native-responsive-screen'
 
+import onLayout from 'react-native-on-layout'
 
 class MyImageViewer extends React.Component {
 
@@ -20,11 +27,29 @@ class MyImageViewer extends React.Component {
       }
   }
 
+  componentDidMount() {
+    // if(this.state.show){
+    //   Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_RIGHT);
+    // }
+  }
+
+  componentWillUnmount() {
+    // Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_RIGHT);
+  }
+
   _onCancel = () => {
+    // Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_RIGHT)
     this.setState({show: false})
   }
 
   componentWillReceiveProps(nextProps) {
+
+    // if(this.state.show){
+    //   Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_RIGHT);
+    // }
+    // else{
+    //   Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_RIGHT)
+    // }
 
     if(nextProps.current_index == -1)//L'appel à cette fonction est générée par un changement de page, pas par un click
     {
@@ -62,8 +87,40 @@ class MyImageViewer extends React.Component {
   }
 
   render() {
+      const styles = StyleSheet.create({
+        main_container: {
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: "black"
+        },
+        image: {
+          flex: 1,
+          // transform: [{ rotate: '90deg'}]
+          // resizeMode: ImageResizeMode.contain
+        },
+        view: {
+          width: '100%',
+          height: '100%',
+          // width: wp('100%'),
+          // height: hp('100%'),
+          flexDirection: 'column',
+        },
+        modal: {
+          // width: wp('100%'),
+          // height: hp('100%'),
+          width: '100%',
+          height: '100%',
+          // flexDirection: 'column',
+        },
+      })
+
       return (
-          <Modal visible={this.state.show} transparent={true}>
+          <Modal
+            visible={this.state.show}
+            transparent={true}
+            >
+            <View style={styles.view}>
               <ImageViewer
                 imageUrls={this.state.url_list}
                 onCancel = {this._onCancel}
@@ -88,25 +145,33 @@ class MyImageViewer extends React.Component {
                         })
                       }}
                       resizeMode= "contain"
+                      style = {[props.style, styles.image]}
                       />
+
                 }
                 />
+
+                </View>
           </Modal>
       )
   }
 }
 
-const styles = StyleSheet.create({
-  main_container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: "black"
-  },
-  image: {
-    flex: 1,
-    resizeMode: ImageResizeMode.contain
-  },
-})
+// const styles = StyleSheet.create({
+//   main_container: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     backgroundColor: "black"
+//   },
+//   image: {
+//     flex: 1,
+//     resizeMode: ImageResizeMode.contain
+//   },
+//   modal: {
+//     width: wp('84.5%'),
+//     height: hp('17%'),
+//   },
+// })
 
 export default MyImageViewer
