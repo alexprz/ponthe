@@ -1,11 +1,9 @@
 import React from 'react'
+import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native'
-import {getLatestImagesFromAPI, getFullImageFromAPI} from '../API/loadImages'
-import ImageItem from './ImageItem'
 import store from '../store/configureStore'
 import MyImageViewer from './MyImageViewer'
-import {API_URL} from '../constants'
+import ImageItem from './ImageItem'
 
 class MyFlatList extends React.Component {
   constructor(props) {
@@ -21,30 +19,14 @@ class MyFlatList extends React.Component {
           page_size: 10,
           refreshing: true
       }
-      // console.log("construct");
-      // this.nb_max_path_to_load = 100
-      // this._loadAllPaths() //Nb max d'images affichées en scrollant
-      // this._loadNextImages()
-      // this.nb_max_path_to_load = props.nb_max_path_to_load
+
       this.getImages = props.getImages
-      this._loadAllPaths() //Nb max d'images affichées en scrollant
+      this._loadAllPaths()
       this._loadNextImages()
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log(nextProps.getImages);
-    this.getImages = nextProps.getImages
-    this._loadAllPaths() //Nb max d'images affichées en scrollant
-    this._loadNextImages()
-
-  }
-
   _loadAllPaths() {
-    // console.log(this.getImages);
-    console.log("prebite");
     this.getImages().then(data => {
-
-        console.log("bite");
         var path_list = new Array(data.jsonData.files.length).fill("")
         var dim_list = new Array(data.jsonData.files.length).fill({})
         var full_file_list = new Array(data.jsonData.files.length)
@@ -98,7 +80,7 @@ class MyFlatList extends React.Component {
 
   render() {
     return (
-      <View style={this.props.container_style}>
+      <View style={[this.props.container_style, styles.main_container]}>
         {this.props.title != undefined &&
           <Text style={styles.text_style}>
             {this.props.title}
@@ -139,7 +121,6 @@ const numColumns = 2
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
-    // marginTop: 25,
     backgroundColor: 'white'
   },
   touchable_opacity: {
