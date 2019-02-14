@@ -43,7 +43,7 @@ class UploadEvent extends React.Component {
           title="Ouvrir Photos"
         />
 
-        <Button onPress={this._takePhoto} title="Ouvrir la Pélicule" />
+        <Button onPress={this._takePhoto} title="Ouvrir la Pellicule" />
 
         {this._maybeRenderImage()}
         {this._maybeRenderUploadingOverlay()}
