@@ -25,6 +25,8 @@ class Equipment extends React.Component {
     this.message = message
   }
 
+  // To adapt the height of the TextInput according to the size of message
+  // The TextInput's height grows when the message spreads on several lines
   _updateSize(height) {
     this.setState({messageHeight: height})
   }
@@ -43,14 +45,14 @@ class Equipment extends React.Component {
   // Method that calls the API function (POST) materiel in order to borrow
   // equipment
   _requestEquipment() {
-    requestEquipmentViaAPI(this.device, this.message,
-    store.getState().userInfo.token).then(res => {
-      if (this.device == '')
-        this.setState({msg:"Matériel désiré manquant"})
+    if (this.device == '')
+      this.setState({msg:"Matériel désiré manquant"})
+    else {
+      if (this.message == '')
+        this.setState({msg:"Raisons de l'emprunt manquantes"})
       else {
-        if (this.message == '')
-          this.setState({msg:"Raisons de l'emprunt manquantes"})
-        else {
+        requestEquipmentViaAPI(this.device, this.message,
+        store.getState().userInfo.token).then(res => {
           if (res.statusCode == 200) {
             this._raiseRequestAlert()
           }
@@ -58,9 +60,9 @@ class Equipment extends React.Component {
             this.setState({msg:res.jsonData.msg})
             console.log(res.jsonData.msg)
           }
-        }
+        })
       }
-    })
+    }
   }
 
   render() {

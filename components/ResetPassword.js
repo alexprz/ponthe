@@ -30,22 +30,26 @@ class Reset extends React.Component {
   // Method that calls the API function (POST) register in order to create
   // a new account
   _reset() {
-    resetPassword(this.email).then(res => {
-      if (res.statusCode == 200) {
-        this._raiseResetAlert()
-      }
-      else {
-        this.setState({ msg:res.jsonData.msg })
-        //console.log(res.jsonData.msg)
-      }
-    })
+    if (this.email == '') {
+      this.setState({msg:"Email manquant"})
+    }
+    else {
+      resetPassword(this.email).then(res => {
+        if (res.statusCode == 200) {
+          this._raiseResetAlert()
+        }
+        else {
+          this.setState({ msg:res.jsonData.msg })
+        }
+      })
+    }
   }
 
   render() {
     return (
       <View style={styles.main_container}>
-        <Text> Pour réinitialiser ton mot de passe, </Text>
-        <Text> donne ton adresse ci-dessous </Text>
+        <Text>Pour réinitialiser ton mot de passe,
+        donne ton adresse ci-dessous </Text>
         <View style={styles.inputs_container}>
           <TextInput
             style={styles.input_text}
@@ -54,6 +58,9 @@ class Reset extends React.Component {
             autoCapitalize = 'none'
             autoCorrect = {false}
           />
+          <Text style={styles.message}>
+            {this.state.msg}
+          </Text>
         </View>
         <View style = {styles.button_container}>
           <TouchableOpacity
@@ -81,6 +88,11 @@ const styles = StyleSheet.create({
   },
   input_text: {
     height: 40
+  },
+  message: {
+    marginVertical: 5,
+    fontStyle: 'italic',
+    color: 'red'
   },
   button_container: {
     alignItems: 'center',

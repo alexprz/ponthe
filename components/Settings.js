@@ -9,6 +9,7 @@ class Settings extends React.Component {
 
   constructor(props) {
     super(props)
+    this.currentPassword = ''
     this.newPassword = ''
     this.confirmationPassword = ''
     this.state = {
@@ -42,19 +43,27 @@ class Settings extends React.Component {
   // Method that calls the API function (POST) reset/{token} in order to change
   // user password
   _change() {
-    if (this.newPassword != this.confirmationPassword) {
-      this.setState({msg:"Les deux mots de passe ne correspondent pas"})
-    }
+    if (this.currentPassword == '')
+      this.setState({msg:"Mot de passe actuel manquant"})
     else {
-      changePassword(this.currentPassword, this.newPassword,
-        store.getState().userInfo.token).then(res => {
-        if (res.statusCode == 200) {
-          this._raiseResetAlert()
-        }
+      if (this.newPassword == '')
+        this.setState({msg:"Nouveau mot de passe manquant"})
         else {
-          this.setState({msg:res.jsonData.msg})
+          if (this.newPassword != this.confirmationPassword) {
+            this.setState({msg:"Les deux mots de passe ne correspondent pas"})
+          }
+          else {
+            changePassword(this.currentPassword, this.newPassword,
+            store.getState().userInfo.token).then(res => {
+            if (res.statusCode == 200) {
+              this._raiseResetAlert()
+            }
+            else {
+              this.setState({msg:res.jsonData.msg})
+            }
+          })
         }
-      })
+      }
     }
   }
 
