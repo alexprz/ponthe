@@ -16,6 +16,10 @@ class Settings extends React.Component {
     }
   }
 
+  _currentPasswordInputChanged(currentPassword) {
+      this.currentPassword = currentPassword
+  }
+
   _newPasswordInputChanged(newPassword) {
     this.newPassword = newPassword
   }
@@ -23,7 +27,6 @@ class Settings extends React.Component {
   _confirmationPasswordInputChanged(confirmationPassword) {
     this.confirmationPassword = confirmationPassword
   }
-
   _raiseResetAlert() {
     Alert.alert(
       'Mot de passe changé',
@@ -36,17 +39,23 @@ class Settings extends React.Component {
   // Method that calls the API function (POST) reset/{token} in order to change
   // user password
   _change() {
-    changePassword(this.newPassword, this.confirmationPassword,
-      store.getState().userInfo.token).then(res => {
-      if (res.statusCode == 200) {
-        this._raiseResetAlert()
-      }
-      else {
-        this.setState({msg:res.jsonData.msg})
-        console.log(store.getState().userInfo.token)
-        console.log(res.jsonData.msg)
-      }
-    })
+    if (this.newPassword != this.confirmationPassword) {
+        this.setState({msg:"Les deux mots de passe ne correspondent pas"})
+    }
+    else {
+        console.log(this.currentPassword)
+        changePassword(this.currentPassword, this.newPassword,
+          store.getState().userInfo.token).then(res => {
+          if (res.statusCode == 200) {
+            this._raiseResetAlert()
+          }
+          else {
+            this.setState({msg:res.jsonData.msg})
+            console.log(store.getState().userInfo.token)
+            console.log(res.jsonData.msg)
+          }
+        })
+    }
   }
 
   render() {
@@ -59,7 +68,15 @@ class Settings extends React.Component {
           <Text>Pour changer ton mot de passe, </Text>
           <Text>renseigne les champs ci-dessous </Text>
           <View style={styles.inputs_container}>
-            <TextInput
+          <TextInput
+            style={styles.input_text}
+            placeholder = 'Mot de passe actuel'
+            onChangeText = {(text) => this._currentPasswordInputChanged(text)}
+            autoCapitalize = 'none'
+            autoCorrect = {false}
+            secureTextEntry = {true}
+           />
+           <TextInput
               style={styles.input_text}
               placeholder = 'Nouveau mot de passe'
               onChangeText = {(text) => this._newPasswordInputChanged(text)}

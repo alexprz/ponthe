@@ -67,17 +67,17 @@ export function resetPassword(email) {
   .catch(error => console.error(error))
 }
 
-export function changePassword(newPassword, passwordConfirmation, token) {
-  return fetch(API_URL + "reset/" + token, {
+export function changePassword(currentPassword, newPassword, token) {
+  return fetch(API_URL + "reset-password", {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token },
     body: JSON.stringify({
+      current_password: currentPassword,
       new_password: newPassword,
-      confirmation_password: passwordConfirmation
-      })
+     })
   })
   .then(processAPIResponse)
   .catch(error => console.error(error))
