@@ -1,8 +1,8 @@
 import React from 'react'
 import { StyleSheet, View, Text, TextInput,
   TouchableOpacity, Alert } from 'react-native'
-import { changePassword } from '../API/connexion'
-import store from '../store/configureStore'
+import { changePassword } from '../API/connexion.js'
+import store from '../store/configureStore.js'
 import { ponthe_color } from '../constants'
 
 class Settings extends React.Component {
@@ -27,6 +27,7 @@ class Settings extends React.Component {
   _confirmationPasswordInputChanged(confirmationPassword) {
     this.confirmationPassword = confirmationPassword
   }
+
   _raiseResetAlert() {
     Alert.alert(
       'Mot de passe changé',
@@ -42,20 +43,18 @@ class Settings extends React.Component {
   // user password
   _change() {
     if (this.newPassword != this.confirmationPassword) {
-        this.setState({msg:"Les deux mots de passe ne correspondent pas"})
+      this.setState({msg:"Les deux mots de passe ne correspondent pas"})
     }
     else {
-        changePassword(this.currentPassword, this.newPassword,
-          store.getState().userInfo.token).then(res => {
-          if (res.statusCode == 200) {
-            this._raiseResetAlert()
-          }
-          else {
-            this.setState({msg:res.jsonData.msg})
-            console.log(store.getState().userInfo.token)
-            console.log(res.jsonData.msg)
-          }
-        })
+      changePassword(this.currentPassword, this.newPassword,
+        store.getState().userInfo.token).then(res => {
+        if (res.statusCode == 200) {
+          this._raiseResetAlert()
+        }
+        else {
+          this.setState({msg:res.jsonData.msg})
+        }
+      })
     }
   }
 
