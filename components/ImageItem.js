@@ -1,8 +1,7 @@
 import React from 'react'
 import { StyleSheet, Image, ImageBackground, View, Text } from 'react-native'
-import ImageResizeMode from 'react-native/Libraries/Image/ImageResizeMode'
-import { API_URL } from '../constants'
 import store from '../store/configureStore'
+import { API_URL } from '../constants'
 
 class ImageItem extends React.Component {
 
@@ -35,13 +34,5 @@ class ImageItem extends React.Component {
     )
   }
 }
-
-// const styles = StyleSheet.create({
-//   event_text: {
-//     fontWeight: 'bold',
-//     fontSize: 55,
-//     color: 'white'
-//   },
-// })
 
 export default ImageItem

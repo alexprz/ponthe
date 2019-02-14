@@ -1,10 +1,9 @@
 import React from 'react'
 import { StyleSheet, View, FlatList, Text } from 'react-native'
+import store from '../store/configureStore'
+import { getAllYearsFromAPI } from '../API/loadImages'
 import GalleryYearList from '../components/GalleryYearList.js'
 import GalleryUploadList from '../components/GalleryUploadList.js'
-//import years_data from '../helpers/GalleryYearsData.js'
-import {getAllYearsFromAPI} from '../API/loadImages'
-import store from '../store/configureStore'
 
 class Gallery extends React.Component {
   constructor(props) {

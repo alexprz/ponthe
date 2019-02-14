@@ -2,11 +2,9 @@ import React from 'react'
 import { StyleSheet, View, FlatList, Text } from 'react-native'
 import GalleryYearList from '../components/GalleryYearList.js'
 import GalleryUploadList from '../components/GalleryUploadList.js'
-//import years_data from '../helpers/GalleryYearsData.js'
-import {getAllYearsFromAPI} from '../API/loadImages'
+import { getAllYearsFromAPI } from '../API/loadImages'
 import store from '../store/configureStore'
-
-import { List, ListItem } from 'react-native-elements'
+import { List } from 'react-native-elements'
 
 class Upload extends React.Component {
 
@@ -75,7 +73,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     justifyContent: 'center',
     marginTop: "5%",
-    // backgroundColor: 'transparent',
     height: '100%',
     width: '100%'
   },
@@ -88,7 +85,6 @@ const styles = StyleSheet.create({
   },
   subtitle_style: {
       textAlign: 'center',
-      // marginLeft: "3%",
       fontSize: 19
   }
 })

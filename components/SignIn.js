@@ -20,7 +20,8 @@ class SignIn extends React.Component {
     this._retrieveToken()
   }
 
-  // Give a description?
+  // Permet de récupéré un éventuel token stocké dans le stockage du téléphone
+  // Si celui-ci est bien présent, on bypass la connexion
   _retrieveToken = async () => {
     try {
       const value = await AsyncStorage.getItem('@Ponthe:token')
@@ -40,7 +41,7 @@ class SignIn extends React.Component {
     }
   };
 
-  // Give a description?
+  // Permet d'enregister le token dans le stockage du téléphone
   _storeToken = async (token) => {
     await AsyncStorage.setItem('@Ponthe:token', token)
   };

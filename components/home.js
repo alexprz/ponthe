@@ -28,11 +28,4 @@ const styles = StyleSheet.create({
   }
 })
 
-// const mapStateToProps = (state) => {
-//   return {
-//     userInfo: state.userInfo
-//   }
-// }
-
-// export default connect(mapStateToProps)(Home)
 export default Home
