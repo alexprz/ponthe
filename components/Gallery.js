@@ -1,23 +1,22 @@
 import React from 'react'
 import { StyleSheet, View, FlatList, Text } from 'react-native'
 import GalleryYearList from '../components/GalleryYearList.js'
+import GalleryUploadList from '../components/GalleryUploadList.js'
 //import years_data from '../helpers/GalleryYearsData.js'
 import {getAllYearsFromAPI} from '../API/loadImages'
 import store from '../store/configureStore'
 
 class Gallery extends React.Component {
-
   constructor(props) {
       super(props)
       this.state = {
           year_list: [],
           refreshing: true
       }
-      this._loadYears()
+      this._loadYears();
   }
 
   _loadYears () {
-    this.setState({isLoading: true})
     getAllYearsFromAPI(store.getState().userInfo.token).then(data => {
         this.setState({
             year_list: data.jsonData.data,
@@ -30,6 +29,7 @@ class Gallery extends React.Component {
   _displayGalleryEvent = (item) => {
     this.props.navigation.navigate('GalleryEvent', {gallery: item})
   }
+
 
   _refresh() {
     this.setState({
@@ -77,5 +77,6 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
 })
+
 
 export default Gallery

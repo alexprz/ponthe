@@ -21,7 +21,7 @@ const TabBarContentComponent = (props) => (
       <Ionicons name='md-photos' size={tab_icon_size}/>
     </TouchableOpacity>
     <TouchableOpacity
-      onPress = {() => props.navigation.navigate('Upload')}
+      onPress = {() => props.navigation.navigate('UploadStack')}
       activeOpacity = {.5}
       style = {styles.item_container}>
       <FontAwesome name = 'upload' size = {tab_icon_size}/>

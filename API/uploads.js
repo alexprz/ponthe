@@ -1,22 +1,8 @@
 import { processAPIResponse } from './commons.js'
 import { API_URL } from '../constants.js'
 
-
-// export function uploadImage(token, page, page_size) {
-//   return fetch(API_URL + "file-upload", {
-//     method: 'POST',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json',
-//       'Authorization': 'Bearer ' + token  },
-//     body: createFormData(this.state.photo, { userId: "123" })
-//     })
-//     .then(processAPIResponse)
-//     .catch(error => console.error(error))
-// }
-
-export function uploadImageAsync(uri, token) {
-  let apiUrl = API_URL + "file-upload/autre";
+export function uploadImageAsync(uri, token, slug) {
+  let apiUrl = API_URL + "file-upload/"+slug;
   let uriParts = uri.split('.');
   let fileType = uriParts[uriParts.length - 1];
 
@@ -42,15 +28,3 @@ export function uploadImageAsync(uri, token) {
   return fetch(apiUrl, options).then(processAPIResponse)
   .catch(error => console.error(error));
 }
-// export function uploadImage(token, page, page_size) {
-//   return fetch(API_URL + "file-upload", {
-//     method: 'POST',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json',
-//       'Authorization': 'Bearer ' + token  },
-//     body: createFormData(this.state.photo, { userId: "123" })
-//     })
-//     .then(processAPIResponse)
-//     .catch(error => console.error(error))
-// }

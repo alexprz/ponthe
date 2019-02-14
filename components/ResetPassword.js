@@ -9,6 +9,9 @@ class Reset extends React.Component {
   constructor(props) {
     super(props)
     this.email = ''
+    this.state = {
+      msg: ''
+    }
   }
 
   _emailInputChanged(email) {
@@ -19,10 +22,8 @@ class Reset extends React.Component {
     Alert.alert(
       'Réinitialisation du mot de passe',
       'Un mail de réinitialisation de mot de passe t\'a été envoyé sur ton adresse Zimbra',
-      [
-        {text: 'OK', onPress: () => this.props.navigation.navigate('SignIn')},
-      ],
-        { cancelable: false }
+      [{text: 'OK', onPress: () => this.props.navigation.navigate('SignIn')}],
+      {cancelable: false}
     )
   }
 
@@ -31,12 +32,11 @@ class Reset extends React.Component {
   _reset() {
     resetPassword(this.email).then(res => {
       if (res.statusCode == 200) {
-        this._raiseRegisterAlert();
+        this._raiseResetAlert()
       }
       else {
-        this.setState({msg:res.jsonData.msg})
-        //this.setState({msg:
-        //  this._translateErrorMessage(res.statusCode, res.jsonData.msg)})
+        this.setState({ msg:res.jsonData.msg })
+        //console.log(res.jsonData.msg)
       }
     })
   }
@@ -44,7 +44,8 @@ class Reset extends React.Component {
   render() {
     return (
       <View style={styles.main_container}>
-        <Text> Reset </Text>
+        <Text> Pour réinitialiser ton mot de passe, </Text>
+        <Text> donne ton adresse ci-dessous </Text>
         <View style={styles.inputs_container}>
           <TextInput
             style={styles.input_text}
@@ -57,9 +58,9 @@ class Reset extends React.Component {
         <View style = {styles.button_container}>
           <TouchableOpacity
             style = {styles.main_button_shape}
-            onPress = {() => this.reset()}>
+            onPress = {() => this._reset()}>
             <Text style = {styles.main_button_text}>
-              Réinitialiser mot de passe
+              Réinitialiser
             </Text>
           </TouchableOpacity>
         </View>
@@ -71,13 +72,12 @@ class Reset extends React.Component {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 60,
     backgroundColor: 'white'
   },
   inputs_container: {
-    marginTop: 20,
-    marginHorizontal: 60
+    marginTop: 20
   },
   input_text: {
     height: 40
