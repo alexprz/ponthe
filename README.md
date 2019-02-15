@@ -10,6 +10,7 @@ Run
 
 ```
 [sudo] npm install
+[sudo] npm install -g expo-cli
 ```
 
 ## Usage
