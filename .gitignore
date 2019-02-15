@@ -5,6 +5,5 @@ npm-debug.*
 *.p12
 *.key
 *.mobileprovision
-Dockerfile
-docker-compose.yml
 package-lock.json
+.env
