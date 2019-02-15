@@ -36,8 +36,8 @@ Run
 ```
 docker-compose up
 ```
-Browse http://localhost:1900* (the right url is written is your terminal).
-Install Expo on your smartphone and scan the QR Code.
+Browse http://localhost:19002.
+Install Expo on your smartphone and scan the QR Code. Note: does not work under eduroam network.
 
 
 ### Local
