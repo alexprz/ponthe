@@ -3,7 +3,7 @@
 This application is designed to work on iOS and Android. It is powered by ReactNative.
 
 ## Installation
-You can install this software locally or using Docker. For both installation, you need to create an Expo account on https://expo.io/signup .
+You can install this software locally or using Docker. For both installation, you need to create an Expo account on https://expo.io/signup.
 
 ### Using docker
 This installation requires Docker. Note: this installation does not provide the iOS or Android Simulator.
