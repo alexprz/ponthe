@@ -2,6 +2,9 @@ version: '3'
 services:
   expo:
     build: .
+    environment:
+     - EXPO_USERNAME=${EXPO_USERNAME}
+     - EXPO_PASSWORD=${EXPO_PASSWORD}
     ports:
      - "19000:19000"
      - "19001:19001"
